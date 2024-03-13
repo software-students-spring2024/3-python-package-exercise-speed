@@ -1,5 +1,5 @@
 import pytest
-from pydancer import dancer
+from src.pydancer import dancer
 
 class Tests:
 
