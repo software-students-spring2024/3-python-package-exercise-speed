@@ -7,6 +7,7 @@ name = "pypi"
 twine = "*"
 build = "*"
 requests = "*"
+pygame = "*"
 
 [dev-packages]
 
