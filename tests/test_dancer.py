@@ -3,6 +3,7 @@ from src.pydancer import dancer
 
 class Tests:
 
+    @pytest.mark.timeout(100)  # Timeout after 100 seconds
     def test_sanity_check(self):
         """
         Test debugging... making sure that we can run a simple test that always passes.
