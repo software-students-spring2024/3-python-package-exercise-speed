@@ -1,9 +1,9 @@
 import pytest
+import pygame
 from src.pydancer import dancer
 
 class Tests:
 
-    @pytest.mark.timeout(100)  # Timeout after 100 seconds
     def test_sanity_check(self):
         """
         Test debugging... making sure that we can run a simple test that always passes.
@@ -13,3 +13,8 @@ class Tests:
         expected = True  # the value we expect to be present
         actual = True  # the value we see in reality
         assert actual == expected, "Expected True to be equal to True!"
+
+    def test_quit(self):
+        game = pygame.init()
+        pygame.quit()
+        self.assertFalse(pygame.init())
