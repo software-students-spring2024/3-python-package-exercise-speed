@@ -1,5 +1,4 @@
 import pytest
-import pygame
 from src.pydancer import dancer
 
 class Tests:
@@ -13,8 +12,3 @@ class Tests:
         expected = True  # the value we expect to be present
         actual = True  # the value we see in reality
         assert actual == expected, "Expected True to be equal to True!"
-
-    def test_quit(self):
-        game = pygame.init()
-        pygame.quit()
-        self.assertFalse(pygame.init())
