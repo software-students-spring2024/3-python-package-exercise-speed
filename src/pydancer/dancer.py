@@ -1,35 +1,37 @@
 import pygame
-pygame.init()
 
-# Set dimentions
-SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
+def play():
+    pygame.init()
 
-# Create screen
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    # Set dimentions
+    SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
 
-# Set window title
-pygame.display.set_caption("PyDancer")
+    # Create screen
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-background_color = (250, 250, 250)
+    # Set window title
+    pygame.display.set_caption("PyDancer")
 
-timeout_duration = 30000 #30 seconds
+    background_color = (250, 250, 250)
 
-# Game loop
-running = True
-last_event_time = pygame.time.get_ticks()
-while running:
-    # Check for events
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+    timeout_duration = 30000 #30 seconds
+
+    # Game loop
+    running = True
+    last_event_time = pygame.time.get_ticks()
+    while running:
+        # Check for events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        # end loop if no events in 30 seconds
+        elapsed_time = pygame.time.get_ticks() - last_event_time
+        if elapsed_time >= timeout_duration:
             running = False
 
-    # end loop if no events in 30 seconds
-    elapsed_time = pygame.time.get_ticks() - last_event_time
-    if elapsed_time >= timeout_duration:
-        running = False
+        # Draw screen
+        screen.fill(background_color)
+        pygame.display.flip()
 
-    # Draw screen
-    screen.fill(background_color)
-    pygame.display.flip()
-
-pygame.quit()
+    pygame.quit()
