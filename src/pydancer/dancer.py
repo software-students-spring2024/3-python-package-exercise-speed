@@ -1,7 +1,7 @@
 import pygame
 pygame.init()
 
-# Set dimentions
+# Set dimensions
 SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
 
 # Create screen
