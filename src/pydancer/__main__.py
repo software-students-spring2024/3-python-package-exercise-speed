@@ -12,7 +12,7 @@ def main():
     subparsers = parser.add_subparsers(dest='command', help='sub-command help', required=True)
 
     songsParser = subparsers.add_parser('songs', help='list available songs')
-    songsParser.add_argument('genre', choices=['country', 'pop'], help='genre name')
+    songsParser.add_argument('--genre', choices=['country', 'pop'], help='genre name')
 
     args = parser.parse_args()
     if args.command == 'songs':
