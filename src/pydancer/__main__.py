@@ -11,7 +11,7 @@ def main():
     )
     subparsers = parser.add_subparsers(dest='command', help='sub-command help', required=True)
 
-    playParser = subparsers.add_parser('play', help="play pydancer")
+    playParser = subparsers.add_parser('play', help='play pydancer')
 
     songsParser = subparsers.add_parser('songs', help='list available songs')
     songsParser.add_argument('--genre', choices=['country', 'pop'], help='genre name')

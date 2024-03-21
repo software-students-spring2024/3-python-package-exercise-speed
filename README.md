@@ -6,6 +6,9 @@
 
 Python game version of the dance arcade game, using arrow keys to match the steps of the dance.
 
+## To play:
+`python -m pydancer play`
+
 ## To list songs:
 To list all songs,
 
