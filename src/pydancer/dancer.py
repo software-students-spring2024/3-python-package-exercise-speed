@@ -1,6 +1,6 @@
 import pygame
-from constants import GAME_NAME, SCREEN_WIDTH, SCREEN_HEIGHT, BACKGROUND_COLOR, TIMEOUT_DURATION
-from functions import load_image, display_image, scale_image
+from src.pydancer.constants import GAME_NAME, SCREEN_WIDTH, SCREEN_HEIGHT, BACKGROUND_COLOR, TIMEOUT_DURATION
+from src.pydancer.functions import load_image, display_image, scale_image
 
 pygame.init()
 
