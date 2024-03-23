@@ -1,6 +1,6 @@
 import pygame
-from src.pydancer.constants import GAME_NAME, SCREEN_WIDTH, SCREEN_HEIGHT, BACKGROUND_COLOR, TIMEOUT_DURATION
-from src.pydancer.functions import load_image, display_image, scale_image
+from .constants import * 
+from .functions import * 
 
 def play():
     pygame.init()
@@ -36,3 +36,5 @@ def play():
         pygame.display.flip()
 
     pygame.quit()
+
+play()
