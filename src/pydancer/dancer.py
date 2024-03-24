@@ -1,24 +1,6 @@
 import pygame
-# from .constants import * 
-# from .functions import * 
-
-# Constants bc I can't fix import errors
-GAME_NAME = "PyDancer"
-SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
-BACKGROUND_COLOR = (250, 250, 250)
-TIMEOUT_DURATION = 30000  # 30 seconds
-
-# image functions because I can't fix import errors
-def load_image(image_path):
-    return pygame.image.load(image_path)
-
-def display_image(screen, image, x, y):
-    screen.blit(image, (x, y))
-
-def scale_image(image, x, y):
-    return pygame.transform.scale(image, (x, y))
-
-
+from .constants import * 
+from .functions import * 
 
 def play():
     pygame.init()
