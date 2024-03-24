@@ -4,6 +4,7 @@ import pydancer.dancer as dancer
 # using this as reference for argument parser: https://github.com/grantjenks/free-python-games/blob/master/src/freegames/__main__.py
 
 def main():
+    
     parser = argparse.ArgumentParser(
         prog="pydancer",
         description="Rhythm Game on Python",
