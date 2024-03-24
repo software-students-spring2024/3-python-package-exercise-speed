@@ -5,7 +5,7 @@ import pydancer.display as display
 import pydancer.dancer as dancer
 import pydancer.howto as howto
 
-def parseArgs(args):
+def main():
     parser = argparse.ArgumentParser(
         prog="pydancer",
         description="Rhythm Game on Python",
@@ -26,19 +26,18 @@ def parseArgs(args):
     howToParser = subparsers.add_parser('howto', help='print how-to guide')
     howToParser.add_argument('--long', action="store_true", help='print longer description')
 
-    return parser.parse_args(args)
-
-
-def main():
-    args = parseArgs(sys.argv[1:])
+    args = parser.parse_args()
     if args.command == 'play':
         dancer.play()
     elif args.command == 'display':
-        display.listDisplay(args)
+        line = display.listDisplay(args)
+        print(line)
     elif args.command == 'songs':
-        songs.listSongs(args.genre)
+        line = songs.listSongs(args.genre)
+        print(line)
     elif args.command == 'howto':
-        howto.printHowTo(args.long)
+        line = howto.printHowTo(args.long)
+        print(line)
 
 
 
