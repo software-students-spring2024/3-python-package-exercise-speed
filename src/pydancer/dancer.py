@@ -29,7 +29,7 @@ def play():
     # Set window title
     pygame.display.set_caption(GAME_NAME)
     # set up images
-    dancer_image = load_image("images/dancer.png")
+    dancer_image = load_image("../images/dancer.png")
     dancer_image = scale_image(dancer_image, 128, 128)
 
     # Game loop
