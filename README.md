@@ -9,14 +9,37 @@ Python game version of the dance arcade game, using arrow keys to match the step
 ## To play:
 `python3 -m pydancer play`
 
+## To list display options:
+To list all display options,
+
+`python3 -m pydancer display`
+
+To list only character display options,
+
+`python3 -m pydancer display --characters`
+
+To list only theme display options,
+
+`python3 -m pydancer display --themes`
+
 ## To list songs:
 To list all songs,
 
 `python3 -m pydancer songs`
 
-To list songs by genre, for example country:
+To list songs by genre, for example country,
 
 `python3 -m pydancer songs --genre country`
+
+## To print how-to guide:
+To print the short how-to guide,
+
+`python3 -m pydancer howto`
+
+To print the long how-to guide,
+
+`python3 -m pydancer howto --long`
+
 
 
 
