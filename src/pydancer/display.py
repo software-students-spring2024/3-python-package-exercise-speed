@@ -3,7 +3,14 @@ def listDisplay(args):
         print('Characters:')
         print('girl character')
         print('boy character')
-    if args.themes:
+    elif args.themes:
         print('Themes:')
         print('pink')
-        print('blue')     
+        print('blue')
+    else:
+        print('Characters:')
+        print('girl character')
+        print('boy character')   
+        print('Themes:')
+        print('pink')
+        print('blue')
