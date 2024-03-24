@@ -23,12 +23,6 @@ def play():
             if event.type == pygame.QUIT:
                 running = False
 
-        # end loop if no events in 30 seconds
-        elapsed_time = pygame.time.get_ticks() - last_event_time
-
-        if elapsed_time >= TIMEOUT_DURATION:
-            running = False
-
         # Draw screen
         screen.fill(BACKGROUND_COLOR)
         display_image(screen, dancer_image, SCREEN_WIDTH * .4 , SCREEN_HEIGHT * .1)
