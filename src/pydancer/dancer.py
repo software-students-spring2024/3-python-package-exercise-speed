@@ -1,9 +1,8 @@
 from os import environ
-environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
-
 import pygame
-from .constants import * 
-from .functions import * 
+from .constants import *
+from .functions import *
+environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 class Pos:
     def __init__(self, x, y):
@@ -15,22 +14,22 @@ class Component:
         self.image = image
         self.pos = pos
 
-    # returns x position to draw from so that the actual pos.x is centered 
+    # returns x position to draw from so that the actual pos.x is centered
     def get_draw_x(self):
         return self.pos.x - (self.image.get_width() / 2)
 
-    # returns y position to draw from so that the actual pos.y is centered 
+    # returns y position to draw from so that the actual pos.y is centered
     def get_draw_y(self):
         return self.pos.y - (self.image.get_height() / 2)
 
 def play():
     pygame.init()
 
-    # Create screen
+    # Pygame setup
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-
-    # Set window title
     pygame.display.set_caption(GAME_NAME)
+    clock = pygame.time.Clock()
+    last_event_time = pygame.time.get_ticks()
 
     # set up components 
     dancer_image = load_image("../images/dancer.png")
@@ -53,14 +52,21 @@ def play():
     right_arrow_image = scale_image(right_arrow_image, ARROW_WIDTH, ARROW_HEIGHT)
     right_arrow = Component(right_arrow_image, Pos(SCREEN_WIDTH * .8, SCREEN_HEIGHT * .9))
 
-    # Game loop
     running = True
-    last_event_time = pygame.time.get_ticks()
     while running:
         # Check for events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
+
+        # delta time is needed to make updates independent of the frame rate
+        delta_time = clock.tick(FPS)/1000
+
+        up_arrow.pos.y -= 20 * delta_time
+        down_arrow.pos.y -= 20 * delta_time
+        left_arrow.pos.y -= 20 * delta_time
+        right_arrow.pos.y -= 20 * delta_time
 
         # Draw screen
         screen.fill(BACKGROUND_COLOR)
