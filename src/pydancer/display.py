@@ -1,16 +1,9 @@
 def listDisplay(args):     
-    if args.characters:
-        print('Characters:')
-        print('girl character')
-        print('boy character')
+    if args.characters and args.themes:
+        return 'Characters:\ngirl character\nboy character\nThemes:\npink\nblue'
+    elif args.characters:
+        return 'Characters:\ngirl character\nboy character'
     elif args.themes:
-        print('Themes:')
-        print('pink')
-        print('blue')
+        return 'Themes:\npink\nblue'
     else:
-        print('Characters:')
-        print('girl character')
-        print('boy character')   
-        print('Themes:')
-        print('pink')
-        print('blue')
+        return 'Characters:\ngirl character\nboy character\nThemes:\npink\nblue'

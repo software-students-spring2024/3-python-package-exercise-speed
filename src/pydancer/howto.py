@@ -1,5 +1,5 @@
 def printHowTo(long):
     if long:
-        print("This is such an awesome game! Play with Up, Down, Left, Right arrows.")       
+        return("This is such an awesome game! Play with Up, Down, Left, Right arrows.")       
     else:
-        print('awesome game, use arrows.')
+        return('awesome game, use arrows.')
