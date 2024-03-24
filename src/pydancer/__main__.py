@@ -1,12 +1,11 @@
 import argparse
+import sys
 import pydancer.songs as songs
 import pydancer.display as display
 import pydancer.dancer as dancer
 import pydancer.howto as howto
-# using this as reference for argument parser: https://github.com/grantjenks/free-python-games/blob/master/src/freegames/__main__.py
 
-def main():
-    
+def parseArgs(args):
     parser = argparse.ArgumentParser(
         prog="pydancer",
         description="Rhythm Game on Python",
@@ -27,7 +26,11 @@ def main():
     howToParser = subparsers.add_parser('howto', help='print how-to guide')
     howToParser.add_argument('--long', action="store_true", help='print longer description')
 
-    args = parser.parse_args()
+    return parser.parse_args(args)
+
+
+def main():
+    args = parseArgs(sys.argv[1:])
     if args.command == 'play':
         dancer.play()
     elif args.command == 'display':
