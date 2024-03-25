@@ -1,5 +1,3 @@
-import sys
-import pathlib
 from src.pydancer.songs import listSongs
 
 class Tests:
