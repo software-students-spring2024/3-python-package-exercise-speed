@@ -24,7 +24,7 @@ def play():
     end_area_image = scale_image(end_area_image, SCREEN_WIDTH, SCREEN_HEIGHT * .2)
     end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
 
-    arrows = [generate_arrow("up"), generate_arrow("down"), generate_arrow("left"), generate_arrow("right")]
+    arrows = [generate_arrow(Direction.UP), generate_arrow(Direction.DOWN), generate_arrow(Direction.LEFT), generate_arrow(Direction.RIGHT)]
 
     # Set a timer to add an arrow to the screen every x milliseconds
     ADD_ARROW = pygame.USEREVENT 
@@ -51,7 +51,7 @@ def play():
                     # it's fully inside if 100, it's out if 0, can be anywhere in between
                     for arrow in arrows:
                         # if the corresponding arrow is fully inside the end area, change image
-                        if arrow.direction == 'left' and arrow.percent_inside_of(end_area) == 100:
+                        if arrow.direction == Direction.LEFT and arrow.percent_inside_of(end_area) == 100:
 
 
                             glow_arrow_image = load_image("../images/left_arrow_glow.png")
@@ -62,10 +62,10 @@ def play():
                     pass
 
             if event.type == ADD_ARROW:
-                arrows.append(generate_arrow("up"))
-                arrows.append(generate_arrow("down"))
-                arrows.append(generate_arrow("left"))
-                arrows.append(generate_arrow("right"))
+                arrows.append(generate_arrow(Direction.UP))
+                arrows.append(generate_arrow(Direction.DOWN))
+                arrows.append(generate_arrow(Direction.LEFT))
+                arrows.append(generate_arrow(Direction.RIGHT))
 
         # delta time is needed to make updates independent of the frame rate
         delta_time = clock.tick(FPS)/1000

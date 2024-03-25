@@ -62,7 +62,7 @@ class Component:
 
 def generate_arrow(direction) -> Component:
     # generate path
-    path = "../images/" + direction + "_arrow_filled.png"
+    path = "../images/" + direction.value + "_arrow_filled.png"
 
     # load and scale image
     arrow_image = load_image(path)
@@ -70,13 +70,13 @@ def generate_arrow(direction) -> Component:
 
     # set the x position based on direction
     pos_x = 0
-    if direction == "up":
+    if direction == Direction.UP:
         pos_x = SCREEN_WIDTH * .6
-    elif direction == "down":
+    elif direction == Direction.DOWN:
         pos_x = SCREEN_WIDTH * .4
-    elif direction == "left":
+    elif direction == Direction.LEFT:
         pos_x = SCREEN_WIDTH * .2
-    elif direction == "right":
+    elif direction == Direction.RIGHT:
         pos_x = SCREEN_WIDTH * .8
 
     # create the component and set speed
