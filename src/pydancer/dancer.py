@@ -3,6 +3,7 @@ import pygame
 from .constants import *
 from .image_functions import *
 from .component import *
+from .images import *
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 
@@ -16,12 +17,7 @@ def play():
     # last_event_time = pygame.time.get_ticks()
 
     # set up components 
-    dancer_image = load_image("../images/dancer.png")
-    dancer_image = scale_image(dancer_image, DANCER_WIDTH, DANCER_HEIGHT)
     dancer = Component(dancer_image, Pos(SCREEN_WIDTH * .5 , SCREEN_HEIGHT * .1))
-
-    end_area_image = load_image("../images/end_area.png")
-    end_area_image = scale_image(end_area_image, SCREEN_WIDTH, SCREEN_HEIGHT * .2)
     end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
 
     arrows = [generate_arrow(Direction.UP), generate_arrow(Direction.DOWN), generate_arrow(Direction.LEFT), generate_arrow(Direction.RIGHT)]
@@ -52,13 +48,7 @@ def play():
                     for arrow in arrows:
                         # if the corresponding arrow is fully inside the end area, change image
                         if arrow.direction == Direction.LEFT and arrow.percent_inside_of(end_area) == 100:
-
-
-                            glow_arrow_image = load_image("../images/left_arrow_glow.png")
-                            glow_arrow_image = scale_image(glow_arrow_image, ARROW_WIDTH, ARROW_HEIGHT)
-
                             arrow.image = glow_arrow_image
-
                     pass
 
             if event.type == ADD_ARROW:
