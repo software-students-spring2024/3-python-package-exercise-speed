@@ -11,23 +11,55 @@ class Pos:
 
 # Holds an element that we want to display on the screen and potentially move around
 class Component:
+    pos = Pos(0, 0)
+    left = 0
+    right = 0
+    up = 0
+    bottom = 0
     speed = 0
 
     def __init__(self, image, pos):
         self.image = image
+        self.set_pos(pos)
+
+    def set_pos(self, pos):
         self.pos = pos
-
-    # returns x position to draw from so that the actual pos.x is centered
-    def get_draw_x(self):
-        return self.pos.x - (self.image.get_width() / 2)
-
-    # returns y position to draw from so that the actual pos.y is centered
-    def get_draw_y(self):
-        return self.pos.y - (self.image.get_height() / 2)
+        self.left = self.pos.x - (self.image.get_width() / 2)
+        self.right = self.pos.x + (self.image.get_height() / 2)
+        self.top = self.pos.y - (self.image.get_height() / 2)
+        self.bottom = self.pos.y + (self.image.get_height() / 2)
 
     # display the component on the screen
     def display(self, screen):
-        display_image(screen, self.image, self.get_draw_x(), self.get_draw_y())
+        # render from top left of the image so that (pos.x, pos.y) is centered
+        display_image(screen, self.image, self.left, self.top)
+
+    def percent_inside_of(self, other) -> int:
+        # it's outside 
+        if (self.top > other.bottom 
+            or self.bottom < other.top
+            or self.left > other.right 
+            or self.right < other.left):
+
+            return 0;
+            
+        height = 0
+        if (self.bottom > other.bottom):
+            height = min((other.bottom - self.top), self.image.get_height(), other.image.get_height())
+        elif (self.top > other.top):
+            height = min((self.bottom - other.top), self.image.get_height(), other.image.get_height())
+
+        width = 0
+        if (self.right > other.right):
+            width = min((other.right - self.left), self.image.get_width(), other.image.get_width())
+        elif (self.left > other.left):
+            width = min((self.right - other.left), self.image.get_width(), other.image.get_width())
+
+        area_self = self.image.get_width() * self.image.get_height()
+        area_inside = height * width
+
+        return (area_inside / area_self) * 100 
+        
 
 def generate_arrow(direction) -> Component:
     # generate path
@@ -88,8 +120,15 @@ def play():
                 running = False 
 
             if event.type == pygame.KEYDOWN:
-                # checking if key "A" was pressed
+                # TODO: check key events for other arrows
                 if event.key == pygame.K_LEFT:
+                    # TODO: Check if there is a left arrow in the target area, 
+                    # if so replace it's image with glowing one, if not
+                    # play fail sound and make the animation glitch
+
+                    # NOTE: You can check if an arrow is in the target area with
+                    # arrow.percent_inside_of(end_area)
+                    # it's fully inside if 100, it's out if 0, can be anywhere in between
                     pass
 
             if event.type == ADD_ARROW:
@@ -103,8 +142,8 @@ def play():
 
         # update arrow positions
         for arrow in arrows:
-            arrow.pos.y -= arrow.speed * delta_time
-
+            arrow.set_pos(Pos(arrow.pos.x, arrow.pos.y - arrow.speed * delta_time))
+            
         # Draw screen
         screen.fill(BACKGROUND_COLOR)
 
@@ -117,9 +156,8 @@ def play():
         # remove arrows that go out of the screen
         for arrow in arrows:
             if arrow.pos.y < -arrow.image.get_height():
-                # This is terrible in terms big O however
-                # number of arrows on screen will never be 
-                # too big to cause trouble
+                # NOTE: This is terrible in terms big-O however the number 
+                # of arrows on screen will never be too big to cause trouble
                 arrows.remove(arrow)
 
         pygame.display.flip()
