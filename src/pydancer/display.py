@@ -1,4 +1,5 @@
-def listDisplay(args):     
+def listDisplay(args): 
+    print(args)    
     if args.characters and args.themes:
         return 'Characters:\ngirl character\nboy character\nThemes:\npink\nblue'
     elif args.characters:
