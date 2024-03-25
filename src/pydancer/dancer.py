@@ -2,7 +2,7 @@ from os import environ
 import pygame
 from .constants import *
 from .image_functions import *
-from .arrows import *
+from .component import *
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 
@@ -49,6 +49,16 @@ def play():
                     # NOTE: You can check if an arrow is in the target area with
                     # arrow.percent_inside_of(end_area)
                     # it's fully inside if 100, it's out if 0, can be anywhere in between
+                    for arrow in arrows:
+                        # if the corresponding arrow is fully inside the end area, change image
+                        if arrow.direction == 'left' and arrow.percent_inside_of(end_area) == 100:
+
+
+                            glow_arrow_image = load_image("../images/left_arrow_glow.png")
+                            glow_arrow_image = scale_image(glow_arrow_image, ARROW_WIDTH, ARROW_HEIGHT)
+
+                            arrow.image = glow_arrow_image
+
                     pass
 
             if event.type == ADD_ARROW:

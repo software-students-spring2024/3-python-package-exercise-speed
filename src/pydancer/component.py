@@ -14,10 +14,13 @@ class Component:
     up = 0
     bottom = 0
     speed = 0
+    direction = ""
 
-    def __init__(self, image, pos):
+    def __init__(self, image, pos, direction=""):
         self.image = image
         self.set_pos(pos)
+        self.direction = direction
+
 
     def set_pos(self, pos):
         self.pos = pos
@@ -37,7 +40,6 @@ class Component:
             or self.bottom < other.top
             or self.left > other.right 
             or self.right < other.left):
-
             return 0
             
         height = 0
@@ -78,7 +80,7 @@ def generate_arrow(direction) -> Component:
         pos_x = SCREEN_WIDTH * .8
 
     # create the component and set speed
-    arrow = Component(arrow_image, Pos(pos_x, SCREEN_HEIGHT * 1.1))
+    arrow = Component(arrow_image, Pos(pos_x, SCREEN_HEIGHT * 1.1), direction)
     arrow.speed = 70 
 
     return arrow
