@@ -36,20 +36,23 @@ def play():
                 running = False 
 
             if event.type == pygame.KEYDOWN:
-                # TODO: check key events for other arrows
-                if event.key == pygame.K_LEFT:
-                    # TODO: Check if there is a left arrow in the target area, 
-                    # if so replace it's image with glowing one, if not
-                    # play fail sound and make the animation glitch
-
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     # NOTE: You can check if an arrow is in the target area with
                     # arrow.percent_inside_of(end_area)
                     # it's fully inside if 100, it's out if 0, can be anywhere in between
                     for arrow in arrows:
-                        # if the corresponding arrow is fully inside the end area, change image
-                        if arrow.direction == Direction.LEFT and arrow.percent_inside_of(end_area) == 100:
-                            arrow.image = glow_arrow_image
-                    pass
+                        # if the corresponding arrow is fully inside the target area, replace image with glowing
+                        # TODO: if not, play fail sound and make the animation glitch
+                        if arrow.percent_inside_of(end_area) == 100:
+                            if arrow.direction == Direction.LEFT and event.key == pygame.K_LEFT:
+                                arrow.image = left_glow_arrow_image
+                            elif arrow.direction == Direction.RIGHT and event.key == pygame.K_RIGHT:
+                                arrow.image = right_glow_arrow_image
+                            elif arrow.direction == Direction.UP and event.key == pygame.K_UP:
+                                arrow.image = up_glow_arrow_image
+                            elif arrow.direction == Direction.DOWN and event.key == pygame.K_DOWN:
+                                arrow.image = down_glow_arrow_image
+
 
             if event.type == ADD_ARROW:
                 arrows.append(generate_arrow(Direction.UP))
