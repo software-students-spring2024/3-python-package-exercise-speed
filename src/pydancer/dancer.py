@@ -9,6 +9,7 @@ class Pos:
         self.x = x
         self.y = y
 
+# Holds an element that we want to display on the screen and potentially move around
 class Component:
     speed = 0
 
@@ -24,9 +25,34 @@ class Component:
     def get_draw_y(self):
         return self.pos.y - (self.image.get_height() / 2)
 
+    # display the component on the screen
     def display(self, screen):
         display_image(screen, self.image, self.get_draw_x(), self.get_draw_y())
 
+def generate_arrow(direction) -> Component:
+    # generate path
+    path = "../images/" + direction + "_arrow_filled.png"
+
+    # load and scale image
+    arrow_image = load_image(path)
+    arrow_image = scale_image(arrow_image, ARROW_WIDTH, ARROW_HEIGHT)
+
+    # set the x position based on direction
+    pos_x = 0
+    if direction == "up":
+        pos_x = SCREEN_WIDTH * .6
+    elif direction == "down":
+        pos_x = SCREEN_WIDTH * .4
+    elif direction == "left":
+        pos_x = SCREEN_WIDTH * .2
+    elif direction == "right":
+        pos_x = SCREEN_WIDTH * .8
+
+    # create the component and set speed
+    arrow = Component(arrow_image, Pos(pos_x, SCREEN_HEIGHT * 1.1))
+    arrow.speed = 70 
+
+    return arrow
 
 def play():
     pygame.init()
@@ -46,25 +72,12 @@ def play():
     end_area_image = scale_image(end_area_image, SCREEN_WIDTH, SCREEN_HEIGHT * .2)
     end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
 
-    up_arrow_image = load_image("../images/up_arrow_filled.png")
-    up_arrow_image = scale_image(up_arrow_image, ARROW_WIDTH, ARROW_HEIGHT)
-    up_arrow = Component(up_arrow_image, Pos(SCREEN_WIDTH * .4, SCREEN_HEIGHT * .9))
-    up_arrow.speed = 50
+    arrows = [generate_arrow("up"), generate_arrow("down"), generate_arrow("left"), generate_arrow("right")]
 
-    down_arrow_image = load_image("../images/down_arrow_filled.png")
-    down_arrow_image = scale_image(down_arrow_image, ARROW_WIDTH, ARROW_HEIGHT)
-    down_arrow = Component(down_arrow_image, Pos(SCREEN_WIDTH * .6, SCREEN_HEIGHT * .9))
-    down_arrow.speed = 90
-
-    left_arrow_image = load_image("../images/left_arrow_filled.png")
-    left_arrow_image = scale_image(left_arrow_image, ARROW_WIDTH, ARROW_HEIGHT)
-    left_arrow = Component(left_arrow_image, Pos(SCREEN_WIDTH * .2, SCREEN_HEIGHT * .9))
-    left_arrow.speed = 40
-
-    right_arrow_image = load_image("../images/right_arrow_filled.png")
-    right_arrow_image = scale_image(right_arrow_image, ARROW_WIDTH, ARROW_HEIGHT)
-    right_arrow = Component(right_arrow_image, Pos(SCREEN_WIDTH * .8, SCREEN_HEIGHT * .9))
-    right_arrow.speed = 45
+    # Set a timer to add an arrow to the screen every x milliseconds
+    ADD_ARROW = pygame.USEREVENT 
+    milliseconds = 2000
+    pygame.time.set_timer(ADD_ARROW, milliseconds)
 
     # Game Loop
     running = True
@@ -72,27 +85,42 @@ def play():
         # Check for events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                running = False 
+
+            if event.type == pygame.KEYDOWN:
+                # checking if key "A" was pressed
+                if event.key == pygame.K_LEFT:
+                    pass
+
+            if event.type == ADD_ARROW:
+                arrows.append(generate_arrow("up"))
+                arrows.append(generate_arrow("down"))
+                arrows.append(generate_arrow("left"))
+                arrows.append(generate_arrow("right"))
 
         # delta time is needed to make updates independent of the frame rate
         delta_time = clock.tick(FPS)/1000
 
         # update arrow positions
-        up_arrow.pos.y -= up_arrow.speed * delta_time
-        down_arrow.pos.y -= down_arrow.speed * delta_time
-        left_arrow.pos.y -= left_arrow.speed * delta_time
-        right_arrow.pos.y -= right_arrow.speed * delta_time
+        for arrow in arrows:
+            arrow.pos.y -= arrow.speed * delta_time
 
         # Draw screen
         screen.fill(BACKGROUND_COLOR)
 
         # display components
         end_area.display(screen)
-        up_arrow.display(screen)
-        down_arrow.display(screen)
-        right_arrow.display(screen)
-        left_arrow.display(screen)
         dancer.display(screen)
+        for arrow in arrows:
+            arrow.display(screen)
+            
+        # remove arrows that go out of the screen
+        for arrow in arrows:
+            if arrow.pos.y < -arrow.image.get_height():
+                # This is terrible in terms big O however
+                # number of arrows on screen will never be 
+                # too big to cause trouble
+                arrows.remove(arrow)
 
         pygame.display.flip()
 
