@@ -62,7 +62,7 @@ class Component:
 
 def generate_arrow(direction) -> Component:
     # generate path
-    path = "../images/" + direction.value + "_arrow_filled.png"
+    path = "../static/images/" + direction.value + "_arrow_filled.png"
 
     # load and scale image
     arrow_image = load_image(path)
