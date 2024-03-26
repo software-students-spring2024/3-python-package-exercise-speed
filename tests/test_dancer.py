@@ -1,8 +1,8 @@
-import pytest
-from src.pydancer import dancer
+import os
+os.chdir("./src/pydancer")
+from src.pydancer.dancer import play
 
 class Tests:
-
     def test_sanity_check(self):
         """
         Test debugging... making sure that we can run a simple test that always passes.
