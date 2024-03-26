@@ -6,7 +6,6 @@ from .component import *
 from .images import *
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
-
 def play():
     pygame.init()
 
@@ -35,7 +34,6 @@ def play():
             if event.type == pygame.QUIT:
                 running = False 
 
-            # TODO: FOR SOME REASON THE RIGHT AND UP ARROWS ARE NOT WORKING, left and down are good
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     # NOTE: You can check if an arrow is in the target area with
@@ -45,16 +43,11 @@ def play():
                         # if the corresponding arrow is fully inside the target area, replace image with glowing
                         # TODO: if not, play fail sound and make the animation glitch
                         if arrow.percent_inside_of(end_area) == 100:
-                            if arrow.direction == Direction.LEFT and event.key == pygame.K_LEFT:
-                                arrow.image = left_glow_arrow_image
-                            elif arrow.direction == Direction.RIGHT and event.key == pygame.K_RIGHT:
-                                arrow.image = right_glow_arrow_image
-                            elif arrow.direction == Direction.UP and event.key == pygame.K_UP:
-                                arrow.image = up_glow_arrow_image
-                            elif arrow.direction == Direction.DOWN and event.key == pygame.K_DOWN:
-                                arrow.image = down_glow_arrow_image
-
-
+                            if ((arrow.direction == Direction.LEFT and event.key == pygame.K_LEFT)
+                                or (arrow.direction == Direction.RIGHT and event.key == pygame.K_RIGHT)
+                                or (arrow.direction == Direction.UP and event.key == pygame.K_UP)
+                                or (arrow.direction == Direction.DOWN and event.key == pygame.K_DOWN)):
+                                arrow.set_arrow_status(Status.GLOWING)
 
             if event.type == ADD_ARROW:
                 arrows.append(generate_arrow(Direction.UP))
@@ -77,9 +70,13 @@ def play():
         dancer.display(screen)
         for arrow in arrows:
             arrow.display(screen)
+
             
-        # remove arrows that go out of the screen
         for arrow in arrows:
+            # grey_out arrows that are above the end area
+            if arrow.is_above(end_area) and arrow.status != Status.GLOWING:
+                arrow.set_arrow_status(Status.OUTLINE)
+            # remove arrows that go out of the screen
             if arrow.pos.y < -arrow.image.get_height():
                 # NOTE: This is terrible in terms big-O however the number 
                 # of arrows on screen will never be too big to cause trouble
