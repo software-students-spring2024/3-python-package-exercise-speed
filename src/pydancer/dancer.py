@@ -23,6 +23,10 @@ def play():
     clock = pygame.time.Clock()
     # last_event_time = pygame.time.get_ticks()
 
+    # Load background music
+    pygame.mixer.music.load("../static/song_data/test.mp3")
+    pygame.mixer.music.play(1)  # Play the music once
+
     # set up components 
     dancer = Component(dancer_image, Pos(SCREEN_WIDTH * .5 , SCREEN_HEIGHT * .1))
     end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
@@ -75,6 +79,10 @@ def play():
                     direction = random.choice([Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT])
                     arrows.append(generate_arrow(direction))
 
+        # check if music finished playing
+        if not pygame.mixer.music.get_busy():
+            running = False
+
         # delta time is needed to make updates independent of the frame rate
         delta_time = clock.tick(FPS)/1000
 
@@ -107,5 +115,17 @@ def play():
 
         pygame.display.flip()
 
+    # Stop background music when quitting the game
+    pygame.mixer.music.stop()
+
+    # Display final score when song is finished
+    screen.fill(BACKGROUND_COLOR)
+    dancer = Component(dancer_image, Pos(SCREEN_WIDTH * .5 , SCREEN_HEIGHT * .3))
+    dancer.display(screen)
+    final_score_text = font.render("Final Score: " + str(score), True, (0, 0, 0))
+    screen.blit(final_score_text, ((SCREEN_WIDTH - final_score_text.get_width()) // 2, (SCREEN_HEIGHT - final_score_text.get_height()) // 2))
+    pygame.display.flip()
+
+    pygame.time.wait(5000)
     pygame.quit()
 
