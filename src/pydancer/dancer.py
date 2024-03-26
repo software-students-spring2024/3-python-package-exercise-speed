@@ -8,7 +8,14 @@ import random
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 def play():
+
     pygame.init()
+
+    pygame.font.init()
+    font = pygame.font.SysFont(None, 36)
+
+    # variable to keep track of player's score
+    score = 0
 
     # Pygame setup
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -49,6 +56,16 @@ def play():
                                 or (arrow.direction == Direction.UP and event.key == pygame.K_UP)
                                 or (arrow.direction == Direction.DOWN and event.key == pygame.K_DOWN)):
                                 arrow.set_arrow_status(Status.GLOWING)
+                                # 10 points if the arrow is inside the collision area
+                                score += 10
+                        elif arrow.percent_inside_of(end_area) > 0 and arrow.percent_inside_of(end_area) < 100:
+                            if ((arrow.direction == Direction.LEFT and event.key == pygame.K_LEFT)
+                                or (arrow.direction == Direction.RIGHT and event.key == pygame.K_RIGHT)
+                                or (arrow.direction == Direction.UP and event.key == pygame.K_UP)
+                                or (arrow.direction == Direction.DOWN and event.key == pygame.K_DOWN)):
+                                arrow.set_arrow_status(Status.GLOWING)
+                                # Calculate partial score for partial collision
+                                score += round(arrow.percent_inside_of(end_area) / 10)
 
             if event.type == ADD_ARROW:
                 # Randomly select the number of arrows to generate (1 or 2)
@@ -74,7 +91,10 @@ def play():
         for arrow in arrows:
             arrow.display(screen)
 
-            
+        # Display score in the top right corner
+        score_text = font.render("Score: " + str(score), True, (0, 0, 0))
+        screen.blit(score_text, (SCREEN_WIDTH - score_text.get_width() - 10, 10))
+
         for arrow in arrows:
             # grey_out arrows that are above the end area
             if arrow.is_above(end_area) and arrow.status != Status.GLOWING:
