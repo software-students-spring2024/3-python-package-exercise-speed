@@ -12,3 +12,4 @@ class Direction(Enum):
     LEFT = "left"
     UP = "up"
     DOWN = "down"
+    NONE = "none"

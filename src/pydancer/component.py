@@ -14,9 +14,8 @@ class Component:
     up = 0
     bottom = 0
     speed = 0
-    direction = ""
 
-    def __init__(self, image, pos, direction=""):
+    def __init__(self, image, pos, direction=Direction.NONE):
         self.image = image
         self.set_pos(pos)
         self.direction = direction
@@ -25,7 +24,7 @@ class Component:
     def set_pos(self, pos):
         self.pos = pos
         self.left = self.pos.x - (self.image.get_width() / 2)
-        self.right = self.pos.x + (self.image.get_height() / 2)
+        self.right = self.pos.x + (self.image.get_width() / 2)
         self.top = self.pos.y - (self.image.get_height() / 2)
         self.bottom = self.pos.y + (self.image.get_height() / 2)
 
