@@ -4,6 +4,7 @@ from .constants import *
 from .image_functions import *
 from .component import *
 from .images import *
+import random
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 def play():
@@ -19,7 +20,7 @@ def play():
     dancer = Component(dancer_image, Pos(SCREEN_WIDTH * .5 , SCREEN_HEIGHT * .1))
     end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
 
-    arrows = [generate_arrow(Direction.UP), generate_arrow(Direction.DOWN), generate_arrow(Direction.LEFT), generate_arrow(Direction.RIGHT)]
+    arrows = []
 
     # Set a timer to add an arrow to the screen every x milliseconds
     ADD_ARROW = pygame.USEREVENT 
@@ -50,10 +51,12 @@ def play():
                                 arrow.set_arrow_status(Status.GLOWING)
 
             if event.type == ADD_ARROW:
-                arrows.append(generate_arrow(Direction.UP))
-                arrows.append(generate_arrow(Direction.DOWN))
-                arrows.append(generate_arrow(Direction.LEFT))
-                arrows.append(generate_arrow(Direction.RIGHT))
+                # Randomly select the number of arrows to generate (1 or 2)
+                num_arrows = random.randint(1, 2)
+                for _ in range(num_arrows):
+                    # Randomly select the direction for each arrow
+                    direction = random.choice([Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT])
+                    arrows.append(generate_arrow(direction))
 
         # delta time is needed to make updates independent of the frame rate
         delta_time = clock.tick(FPS)/1000
