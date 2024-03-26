@@ -13,3 +13,8 @@ class Direction(Enum):
     UP = "up"
     DOWN = "down"
     NONE = "none"
+
+class Status(Enum):
+    DEFAULT = "filled"
+    GLOWING = "glow"
+    OUTLINE = "outline"

@@ -15,11 +15,11 @@ class Component:
     bottom = 0
     speed = 0
 
-    def __init__(self, image, pos, direction=Direction.NONE):
+    def __init__(self, image, pos, direction=Direction.NONE, status=Status.DEFAULT):
         self.image = image
         self.set_pos(pos)
         self.direction = direction
-
+        self.status = status
 
     def set_pos(self, pos):
         self.pos = pos
@@ -56,8 +56,18 @@ class Component:
         area_self = self.image.get_width() * self.image.get_height()
         area_inside = height * width
 
-        return (area_inside / area_self) * 100 
+        return int((area_inside / area_self) * 100) 
 
+    def is_above(self, other) -> bool:
+        return self.bottom < other.top
+
+    def set_arrow_status(self, status):
+        if self.status == status:
+            return
+
+        self.status = status
+        path = "../static/images/" + self.direction.value + "_arrow_" + status.value + ".png"
+        self.image = scale_image(load_image(path), ARROW_WIDTH, ARROW_HEIGHT)
 
 def generate_arrow(direction) -> Component:
     # generate path
@@ -83,3 +93,4 @@ def generate_arrow(direction) -> Component:
     arrow.speed = 200 
 
     return arrow
+
