@@ -66,12 +66,12 @@ class Component:
             return
 
         self.status = status
-        path = "../images/" + self.direction.value + "_arrow_" + status.value + ".png"
+        path = "../static/images/" + self.direction.value + "_arrow_" + status.value + ".png"
         self.image = scale_image(load_image(path), ARROW_WIDTH, ARROW_HEIGHT)
 
 def generate_arrow(direction) -> Component:
     # generate path
-    path = "../images/" + direction.value + "_arrow_filled.png"
+    path = "../static/images/" + direction.value + "_arrow_filled.png"
 
     # load and scale image
     arrow_image = load_image(path)
@@ -90,7 +90,7 @@ def generate_arrow(direction) -> Component:
 
     # create the component and set speed
     arrow = Component(arrow_image, Pos(pos_x, SCREEN_HEIGHT * 1.1), direction)
-    arrow.speed = 70 
+    arrow.speed = 200 
 
     return arrow
 

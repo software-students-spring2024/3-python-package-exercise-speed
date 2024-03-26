@@ -31,7 +31,7 @@ def play():
 
     # Set a timer to add an arrow to the screen every x milliseconds
     ADD_ARROW = pygame.USEREVENT 
-    milliseconds = 2000
+    milliseconds = 1406
     pygame.time.set_timer(ADD_ARROW, milliseconds)
 
     # Game Loop
