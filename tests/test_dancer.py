@@ -11,5 +11,4 @@ class Tests:
         """
         expected = True  # the value we expect to be present
         actual = True  # the value we see in reality
-        test = play()
         assert actual == expected, "Expected True to be equal to True!"
