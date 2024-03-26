@@ -20,9 +20,8 @@ def play():
     dancer = Component(dancer_image, Pos(SCREEN_WIDTH * .5 , SCREEN_HEIGHT * .1))
     end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
 
-    #arrows = [generate_arrow(Direction.UP), generate_arrow(Direction.DOWN), generate_arrow(Direction.LEFT), generate_arrow(Direction.RIGHT)]
     arrows = []
-    
+
     # Set a timer to add an arrow to the screen every x milliseconds
     ADD_ARROW = pygame.USEREVENT 
     milliseconds = 2000
@@ -58,13 +57,6 @@ def play():
                     # Randomly select the direction for each arrow
                     direction = random.choice([Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT])
                     arrows.append(generate_arrow(direction))
-
-                '''
-                arrows.append(generate_arrow(Direction.UP))
-                arrows.append(generate_arrow(Direction.DOWN))
-                arrows.append(generate_arrow(Direction.LEFT))
-                arrows.append(generate_arrow(Direction.RIGHT))
-                '''
 
         # delta time is needed to make updates independent of the frame rate
         delta_time = clock.tick(FPS)/1000
