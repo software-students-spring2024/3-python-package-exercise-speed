@@ -44,7 +44,7 @@ def play():
 
     # Set a timer to add an arrow to the screen every x milliseconds
     ADD_ARROW = pygame.USEREVENT 
-    milliseconds = 2000
+    milliseconds = 1406
     pygame.time.set_timer(ADD_ARROW, milliseconds)
 
     # Game Loop
@@ -73,7 +73,6 @@ def play():
                                 arrow.image = up_glow_arrow_image
                             elif arrow.direction == Direction.DOWN and event.key == pygame.K_DOWN:
                                 arrow.image = down_glow_arrow_image
-
 
             if event.type == ADD_ARROW:
                 arrows.append(generate_arrow(Direction.UP))

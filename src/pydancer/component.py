@@ -81,6 +81,6 @@ def generate_arrow(direction) -> Component:
 
     # create the component and set speed
     arrow = Component(arrow_image, Pos(pos_x, SCREEN_HEIGHT * 1.1), direction)
-    arrow.speed = 70 
+    arrow.speed = 200 
 
     return arrow
