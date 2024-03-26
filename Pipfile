@@ -8,6 +8,7 @@ twine = "*"
 build = "*"
 requests = "*"
 pygame = "*"
+coverage = "*"
 
 [dev-packages]
 
