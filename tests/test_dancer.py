@@ -1,5 +1,5 @@
 import os
-os.chdir("./src/pydancer")
+os.chdir("./src")
 from src.pydancer.dancer import play
 
 class Tests:
