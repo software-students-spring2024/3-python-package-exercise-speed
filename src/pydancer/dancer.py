@@ -24,7 +24,7 @@ def play():
     # last_event_time = pygame.time.get_ticks()
 
     # Load background music
-    pygame.mixer.music.load("../static/song_data/test.mp3")
+    pygame.mixer.music.load("../static/song_data/animals.mp3")
     pygame.mixer.music.play(1)  # Play the music once
 
     # set up components 
