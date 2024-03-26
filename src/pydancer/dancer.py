@@ -75,6 +75,7 @@ def play():
                                 arrow.image = down_glow_arrow_image
 
 
+
             if event.type == ADD_ARROW:
                 arrows.append(generate_arrow(Direction.UP))
                 arrows.append(generate_arrow(Direction.DOWN))
@@ -87,7 +88,7 @@ def play():
         # update arrow positions
         for arrow in arrows:
             arrow.set_pos(Pos(arrow.pos.x, arrow.pos.y - arrow.speed * delta_time))
-            
+
         # Draw screen
         screen.fill(BACKGROUND_COLOR)
 
