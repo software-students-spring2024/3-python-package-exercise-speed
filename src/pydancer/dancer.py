@@ -9,9 +9,7 @@ environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 def play(difficulty="easy", character="girl", song="test"):
     # TO DO: add theme
-    pygame.init()
-
-    pygame.font.init()
+    initialize_pygame()
     font = pygame.font.SysFont(None, 36)
 
     # variable to keep track of player's score
@@ -23,36 +21,9 @@ def play(difficulty="easy", character="girl", song="test"):
     clock = pygame.time.Clock()
     # last_event_time = pygame.time.get_ticks()
 
-    # Load background music
-    # TO-DO: add more songs
-    if song == "animals":
-        pygame.mixer.music.load("../static/song_data/Animals.mp3")
-    else:
-        pygame.mixer.music.load("../static/song_data/test.mp3")
-    pygame.mixer.music.play(1)  # Play the music once
-
-    # Validate difficulty_level input
-    if difficulty not in ["easy", "medium", "hard"]:
-        raise ValueError("Invalid difficulty level. Please choose from 'easy', 'medium', or 'hard'.")
-        
-    # setting keys_level and speed for various difficulty levels:
-    if  difficulty == "easy":
-        keys_level = 2
-        speed_level = 1
-    elif difficulty == "medium":
-        keys_level = 3
-        speed_level = 1.3
-    elif difficulty == "hard":
-        keys_level = 4
-        speed_level = 1.6
-
-    # set up components 
-    if character == "girl":
-        dancer_image = dancer_image_girl
-    else:
-        dancer_image = dancer_image_boy
-    dancer = Component(dancer_image, Pos(SCREEN_WIDTH * .5 , SCREEN_HEIGHT * .1))
-    end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
+    load_music(song)
+    keys_level, speed_level = set_difficulty(difficulty)
+    dancer, end_area = setup_components(character)
 
     arrows = []
 
@@ -122,9 +93,7 @@ def play(difficulty="easy", character="girl", song="test"):
         for arrow in arrows:
             arrow.display(screen)
 
-        # Display score in the top right corner
-        score_text = font.render("Score: " + str(score), True, (0, 0, 0))
-        screen.blit(score_text, (SCREEN_WIDTH - score_text.get_width() - 10, 10))
+        display_score(score, font, screen)
 
         for arrow in arrows:
             # grey_out arrows that are above the end area
@@ -138,17 +107,91 @@ def play(difficulty="easy", character="girl", song="test"):
 
         pygame.display.flip()
 
-    # Stop background music when quitting the game
+    stop_music()
+    display_final_score(score, font, screen, character)
+    pygame.quit()
+
+
+def initialize_pygame():
+    '''
+    Function to initialize pygame
+    '''
+    pygame.init()
+    pygame.font.init()
+
+def load_music(song):
+    '''
+    Function to load background music
+    '''
+    # TO-DO: add more songs
+    # TO-DO: Change milliseconds variable based on song to sync with the beat
+    # TO-DO: possibly load song from a database/JSON file that has millseconds info etc
+    if song == "animals":
+        pygame.mixer.music.load("../static/song_data/Animals.mp3")
+    else:
+        pygame.mixer.music.load("../static/song_data/test.mp3")
+    pygame.mixer.music.play(1) # Play the music once
+
+def set_difficulty(difficulty):
+    '''
+    Function to select number of max keys that can be pressed at once
+    and speed of keys based on difficulty level
+    '''
+    if difficulty == "easy":
+        keys_level = 2
+        speed_level = 1
+    elif difficulty == "medium":
+        keys_level = 3
+        speed_level = 1.3
+    elif difficulty == "hard":
+        keys_level = 4
+        speed_level = 1.6
+    return keys_level, speed_level
+
+def set_character_image(character):
+    '''
+    Function to output image for dancer based on the selected character
+    '''
+    if character == "girl":
+        dancer_image = dancer_image_girl
+    else:
+        dancer_image = dancer_image_boy
+    return dancer_image
+
+def setup_components(character):
+    '''
+    Function to set up dancer and collision area components
+    '''
+    dancer_image = set_character_image(character)
+    dancer = Component(dancer_image, Pos(SCREEN_WIDTH * .5 , SCREEN_HEIGHT * .1))
+    end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
+    return dancer, end_area
+
+def stop_music():
+    '''
+    Function to stop background music when quitting the game
+    '''
     pygame.mixer.music.stop()
 
-    # Display final score when song is finished
+def display_score(score, font, screen):
+    '''
+    Function to display current score
+    Score is displayed in the top right corner of the screen
+    '''
+    score_text = font.render("Score: " + str(score), True, (0, 0, 0))
+    screen.blit(score_text, (SCREEN_WIDTH - score_text.get_width() - 10, 10))
+
+def display_final_score(score, font, screen, character):
+    '''
+    Function to display final score when game ends
+    '''
     screen.fill(BACKGROUND_COLOR)
+    # display dancer
+    dancer_image = set_character_image(character)
     dancer = Component(dancer_image, Pos(SCREEN_WIDTH * .5 , SCREEN_HEIGHT * .3))
     dancer.display(screen)
+    # display score
     final_score_text = font.render("Final Score: " + str(score), True, (0, 0, 0))
     screen.blit(final_score_text, ((SCREEN_WIDTH - final_score_text.get_width()) // 2, (SCREEN_HEIGHT - final_score_text.get_height()) // 2))
     pygame.display.flip()
-
     pygame.time.wait(5000)
-    pygame.quit()
-
