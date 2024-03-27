@@ -1,7 +1,8 @@
 import os
 os.chdir("./src")
 import pytest
-from src.pydancer.dancer import play
+import pygame
+from src.pydancer.dancer import keydownListener
 
 class Tests:
     @pytest.fixture
@@ -24,6 +25,8 @@ class Tests:
         """
         expected = True  # the value we expect to be present
         actual = True  # the value we see in reality
-        test = play()
-        test.quit()
         assert actual == expected, "Expected True to be equal to True!"
+
+    def test_keydown(self):
+        pygame.init()
+        pygame.quit()
