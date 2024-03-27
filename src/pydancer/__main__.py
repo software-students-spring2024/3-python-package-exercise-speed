@@ -26,7 +26,7 @@ def main():
     songsParser = subparsers.add_parser('songs', help='list available songs')
     songsParser.add_argument('--genre', choices=['rock', 'house'], help='genre name')
 
-    howToParser = subparsers.add_parser('howto', help='print how-to guide')
+    howToParser = subparsers.add_parser('how-to', help='print how-to guide')
     howToParser.add_argument('--long', action="store_true", help='print longer description')
 
     args = parser.parse_args()
@@ -38,7 +38,7 @@ def main():
     elif args.command == 'songs':
         line = songs.listSongs(args.genre)
         print(line)
-    elif args.command == 'howto':
+    elif args.command == 'how-to':
         line = howto.printHowTo(args.long)
         print(line)
 
