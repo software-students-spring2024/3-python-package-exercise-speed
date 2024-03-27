@@ -19,7 +19,6 @@ def play(difficulty="easy", character="girl", song="test"):
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption(GAME_NAME)
     clock = pygame.time.Clock()
-    # last_event_time = pygame.time.get_ticks()
 
     load_music(song)
     keys_level, speed_level = set_difficulty(difficulty)
@@ -47,23 +46,13 @@ def play(difficulty="easy", character="girl", song="test"):
             if event.type == ADD_ARROW:
                 generate_arrows(arrows, keys_level, speed_level)
 
-        # check if music finished playing
-        if not pygame.mixer.music.get_busy():
-            running = False
+        running = music_status()
 
         # delta time is needed to make updates independent of the frame rate to arrows
         delta_time = clock.tick(FPS)/1000
         update_arrows(arrows, delta_time)
 
-        # Draw screen
-        screen.fill(BACKGROUND_COLOR)
-
-        # display components
-        end_area.display(screen)
-        dancer.display(screen)
-        for arrow in arrows:
-            arrow.display(screen)
-
+        render_screen(screen, end_area, dancer, arrows)
         display_score(score, font, screen)
 
         for arrow in arrows:
@@ -181,11 +170,33 @@ def update_arrows(arrows, delta_time):
     for arrow in arrows:
         arrow.set_pos(Pos(arrow.pos.x, arrow.pos.y - arrow.speed * delta_time))
 
+def music_status():
+    '''
+    Function to check if music finished playing
+    '''
+    if not pygame.mixer.music.get_busy():
+        return False
+    return True
+
 def stop_music():
     '''
     Function to stop background music when quitting the game
     '''
     pygame.mixer.music.stop()
+
+def render_screen(screen, end_area, dancer, arrows):
+    '''
+    Function to display the screen and all elements
+    '''
+    screen.fill(BACKGROUND_COLOR) # Draw screen
+
+    # display components
+    end_area.display(screen)
+    dancer.display(screen)
+
+    # display arrows
+    for arrow in arrows:
+        arrow.display(screen)
 
 def display_score(score, font, screen):
     '''
