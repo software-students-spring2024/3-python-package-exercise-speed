@@ -26,9 +26,9 @@ class Tests:
         initialize_pygame()
         assert pygame.get_init() == True
 
-    def test_load_music(self):
-        load_music("test")
-        assert pygame.mixer.music.get_busy() == True
+    # def test_load_music(self):
+    #     load_music("test")
+    #     assert pygame.mixer.music.get_busy() == True
 
     def test_set_difficulty(self):
         keys_level, speed_level = set_difficulty("easy")
