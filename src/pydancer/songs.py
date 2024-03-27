@@ -1,8 +1,8 @@
 # prob want this to just read the titles of song files instead of hard coded?
 def listSongs(genre):
-    if genre == 'country':
-        return "Country Songs:\ncountry song 1\ncountry song 2"
-    elif genre == 'pop':
-        return "Pop Songs:\npop song 1\npop song 2"
+    if genre == 'rock':
+        return "Rock Songs:\nBlood And Steel"
+    elif genre == 'house':
+        return "House Songs:\nTwo In The Rain"
     else:
-        return "Country Songs:\ncountry song 1\ncountry song 2\nPop Songs:\npop song 1\npop song 2"
+        return "Rock Songs:\nBlood And Steel \nHouse Songs:\nTwo In The Rain"

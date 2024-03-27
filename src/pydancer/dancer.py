@@ -1,11 +1,13 @@
-from os import environ
-import pygame
 from .constants import *
 from .image_functions import *
 from .component import *
 from .images import *
 import random
+from os import environ
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
+
+import pygame
+
 
 def play(difficulty="easy", character="girl", song="test"):
     # TO DO: add theme
@@ -84,9 +86,12 @@ def load_music(song):
     '''
     # TO-DO: add more songs
     # TO-DO: Change milliseconds variable based on song to sync with the beat
-    # TO-DO: possibly load song from a database/JSON file that has millseconds info etc
-    if song == "animals":
-        pygame.mixer.music.load("../static/music/Animals.mp3")
+    # TO-DO: possibly load song from a database/JSON file that has milliseconds info etc
+    if song == "blood-and-steel":
+        print("here")
+        pygame.mixer.music.load("../static/music/blood-and-steel.mp3")
+    elif song == "two-in-the-rain":
+        pygame.mixer.music.load("../static/music/two-in-the-rain.mp3")
     else:
         pygame.mixer.music.load("../static/music/test.mp3")
     pygame.mixer.music.play(1) # Play the music once
