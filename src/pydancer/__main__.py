@@ -1,7 +1,7 @@
 import argparse
 import sys
 import pydancer.songs as songs
-import pydancer.display as display
+import pydancer.options as options
 import pydancer.dancer as dancer
 import pydancer.howto as howto
 
@@ -18,9 +18,9 @@ def main():
     playParser.add_argument('--character', choices=['boy', 'girl'], default='girl', help='choose character')
     playParser.add_argument('--song', choices=['blood-and-steel', 'two-in-the-rain', 'test'], default='test', help='choose song')
 
-    displayParser = subparsers.add_parser('display', help='list display options')
-    displayParser.add_argument('--characters', action="store_true", help='list only characters')
-    displayParser.add_argument('--themes', action="store_true", help='list only themes')
+    optionsParser = subparsers.add_parser('options', help='list play options')
+    optionsParser.add_argument('--characters', action="store_true", help='list only characters')
+    optionsParser.add_argument('--difficulties', action="store_true", help='list only difficulties')
 
 
     songsParser = subparsers.add_parser('songs', help='list available songs')
@@ -32,8 +32,8 @@ def main():
     args = parser.parse_args()
     if args.command == 'play':
         dancer.play(args.difficulty, args.character, args.song)
-    elif args.command == 'display':
-        line = display.listDisplay(args)
+    elif args.command == 'options':
+        line = options.listOptions(args)
         print(line)
     elif args.command == 'songs':
         line = songs.listSongs(args.genre)
