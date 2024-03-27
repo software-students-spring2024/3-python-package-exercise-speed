@@ -126,6 +126,8 @@ def play():
     screen.blit(final_score_text, ((SCREEN_WIDTH - final_score_text.get_width()) // 2, (SCREEN_HEIGHT - final_score_text.get_height()) // 2))
     pygame.display.flip()
 
-    pygame.time.wait(5000)
-    pygame.quit()
+    # pygame.time.wait(5000)
+    # pygame.quit()
+
+    return pygame
 
