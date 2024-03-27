@@ -86,9 +86,9 @@ def load_music(song):
     # TO-DO: Change milliseconds variable based on song to sync with the beat
     # TO-DO: possibly load song from a database/JSON file that has millseconds info etc
     if song == "animals":
-        pygame.mixer.music.load("../static/song_data/Animals.mp3")
+        pygame.mixer.music.load("../static/music/Animals.mp3")
     else:
-        pygame.mixer.music.load("../static/song_data/test.mp3")
+        pygame.mixer.music.load("../static/music/test.mp3")
     pygame.mixer.music.play(1) # Play the music once
 
 def set_difficulty(difficulty):
