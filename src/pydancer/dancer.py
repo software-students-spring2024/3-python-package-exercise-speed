@@ -7,6 +7,34 @@ from .images import *
 import random
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
+
+def keydownListener(event, arrows, end_area, score):
+    if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+        # NOTE: You can check if an arrow is in the target area with
+        # arrow.percent_inside_of(end_area)
+        # it's fully inside if 100, it's out if 0, can be anywhere in between
+        for arrow in arrows:
+            # if the corresponding arrow is fully inside the target area, replace image with glowing
+            # TODO: if not, play fail sound and make the animation glitch
+            if arrow.percent_inside_of(end_area) == 100:
+                if ((arrow.direction == Direction.LEFT and event.key == pygame.K_LEFT)
+                    or (arrow.direction == Direction.RIGHT and event.key == pygame.K_RIGHT)
+                    or (arrow.direction == Direction.UP and event.key == pygame.K_UP)
+                    or (arrow.direction == Direction.DOWN and event.key == pygame.K_DOWN)):
+                    arrow.set_arrow_status(Status.GLOWING)
+                    # 10 points if the arrow is inside the collision area
+                    score += 10
+            elif arrow.percent_inside_of(end_area) > 0 and arrow.percent_inside_of(end_area) < 100:
+                if ((arrow.direction == Direction.LEFT and event.key == pygame.K_LEFT)
+                    or (arrow.direction == Direction.RIGHT and event.key == pygame.K_RIGHT)
+                    or (arrow.direction == Direction.UP and event.key == pygame.K_UP)
+                    or (arrow.direction == Direction.DOWN and event.key == pygame.K_DOWN)):
+                    arrow.set_arrow_status(Status.GLOWING)
+                    # Calculate partial score for partial collision
+                    score += round(arrow.percent_inside_of(end_area) / 10)
+    
+    return score
+
 def play():
 
     pygame.init()
@@ -47,29 +75,7 @@ def play():
                 running = False 
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                    # NOTE: You can check if an arrow is in the target area with
-                    # arrow.percent_inside_of(end_area)
-                    # it's fully inside if 100, it's out if 0, can be anywhere in between
-                    for arrow in arrows:
-                        # if the corresponding arrow is fully inside the target area, replace image with glowing
-                        # TODO: if not, play fail sound and make the animation glitch
-                        if arrow.percent_inside_of(end_area) == 100:
-                            if ((arrow.direction == Direction.LEFT and event.key == pygame.K_LEFT)
-                                or (arrow.direction == Direction.RIGHT and event.key == pygame.K_RIGHT)
-                                or (arrow.direction == Direction.UP and event.key == pygame.K_UP)
-                                or (arrow.direction == Direction.DOWN and event.key == pygame.K_DOWN)):
-                                arrow.set_arrow_status(Status.GLOWING)
-                                # 10 points if the arrow is inside the collision area
-                                score += 10
-                        elif arrow.percent_inside_of(end_area) > 0 and arrow.percent_inside_of(end_area) < 100:
-                            if ((arrow.direction == Direction.LEFT and event.key == pygame.K_LEFT)
-                                or (arrow.direction == Direction.RIGHT and event.key == pygame.K_RIGHT)
-                                or (arrow.direction == Direction.UP and event.key == pygame.K_UP)
-                                or (arrow.direction == Direction.DOWN and event.key == pygame.K_DOWN)):
-                                arrow.set_arrow_status(Status.GLOWING)
-                                # Calculate partial score for partial collision
-                                score += round(arrow.percent_inside_of(end_area) / 10)
+                keydownListener(event, arrows, end_area, score)
 
             if event.type == ADD_ARROW:
                 # Randomly select the number of arrows to generate (1 or 2)
@@ -126,8 +132,5 @@ def play():
     screen.blit(final_score_text, ((SCREEN_WIDTH - final_score_text.get_width()) // 2, (SCREEN_HEIGHT - final_score_text.get_height()) // 2))
     pygame.display.flip()
 
-    # pygame.time.wait(5000)
-    # pygame.quit()
-
-    return pygame
-
+    pygame.time.wait(5000)
+    pygame.quit()
