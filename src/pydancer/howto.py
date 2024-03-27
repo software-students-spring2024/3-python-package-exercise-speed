@@ -1,5 +1,5 @@
 def printHowTo(long):
     if long:
-        return('This is such an awesome game! Play with Up, Down, Left, Right arrows.')       
+        return('Pydancer is a python version of dance arcade games. To play, first enter the play command and its options listed in the README. Once the game screen pops up, press the corresponding arrow key when they enter the purple zone. You have until the end of the song to collect points. Try different difficulties to challenge yourself!')       
     else:
-        return('awesome game, use arrows.')
+        return('Press the corresponding arrow key when they enter the purple zone.')
