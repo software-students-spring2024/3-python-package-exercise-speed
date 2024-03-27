@@ -139,23 +139,24 @@ def check_collision(arrows, end_area, event, score):
     '''
     new_score = score
     for arrow in arrows:
-        # TODO: if not, play fail sound and make the animation glitch
         if arrow.percent_inside_of(end_area) == 100: # full collision
             if ((arrow.direction == Direction.LEFT and event.key == pygame.K_LEFT)
                 or (arrow.direction == Direction.RIGHT and event.key == pygame.K_RIGHT)
                 or (arrow.direction == Direction.UP and event.key == pygame.K_UP)
                 or (arrow.direction == Direction.DOWN and event.key == pygame.K_DOWN)):
-                arrow.set_arrow_status(Status.GLOWING)
-                # 10 points if the arrow is inside the collision area
-                new_score += 10
+                if arrow.status != Status.GLOWING:
+                    arrow.set_arrow_status(Status.GLOWING)
+                    # 10 points if the arrow is inside the collision area
+                    new_score += 10
         elif arrow.percent_inside_of(end_area) > 0 and arrow.percent_inside_of(end_area) < 100: # partial collision
             if ((arrow.direction == Direction.LEFT and event.key == pygame.K_LEFT)
                 or (arrow.direction == Direction.RIGHT and event.key == pygame.K_RIGHT)
                 or (arrow.direction == Direction.UP and event.key == pygame.K_UP)
                 or (arrow.direction == Direction.DOWN and event.key == pygame.K_DOWN)):
-                arrow.set_arrow_status(Status.GLOWING)
-                # Calculate partial score for partial collision
-                new_score += round(arrow.percent_inside_of(end_area) / 10)
+                if arrow.status != Status.GLOWING:
+                    arrow.set_arrow_status(Status.GLOWING)
+                    # Calculate partial score for partial collision
+                    new_score += round(arrow.percent_inside_of(end_area) / 10)
     return new_score
 
 def generate_arrows(arrows, keys_level, speed_level):
