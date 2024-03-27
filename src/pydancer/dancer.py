@@ -1,11 +1,13 @@
-from os import environ
-import pygame
 from .constants import *
 from .image_functions import *
 from .component import *
 from .images import *
 import random
+from os import environ
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
+
+import pygame
+
 
 def play(difficulty="easy", character="girl", song="test"):
     # TO DO: add theme
