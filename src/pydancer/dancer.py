@@ -7,8 +7,8 @@ from .images import *
 import random
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
-def play(difficulty="easy", character="girl"):
-
+def play(difficulty="easy", character="girl", song="test"):
+    # TO DO: add theme
     pygame.init()
 
     pygame.font.init()
@@ -24,13 +24,16 @@ def play(difficulty="easy", character="girl"):
     # last_event_time = pygame.time.get_ticks()
 
     # Load background music
-    pygame.mixer.music.load("../static/song_data/test.mp3")
+    # TO-DO: add more songs
+    if song == "animals":
+        pygame.mixer.music.load("../static/song_data/Animals.mp3")
+    else:
+        pygame.mixer.music.load("../static/song_data/test.mp3")
     pygame.mixer.music.play(1)  # Play the music once
 
     # Validate difficulty_level input
     if difficulty not in ["easy", "medium", "hard"]:
-        raise ValueError(difficulty)
-        #raise ValueError("Invalid difficulty level. Please choose from 'easy', 'medium', or 'hard'.")
+        raise ValueError("Invalid difficulty level. Please choose from 'easy', 'medium', or 'hard'.")
         
     # setting keys_level and speed for various difficulty levels:
     if  difficulty == "easy":

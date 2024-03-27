@@ -16,6 +16,7 @@ def main():
     playParser = subparsers.add_parser('play', help='play pydancer')
     playParser.add_argument('--difficulty', choices=['easy', 'medium', 'hard'], default='easy', help='choose difficulty level')
     playParser.add_argument('--character', choices=['boy', 'girl'], default='girl', help='choose character')
+    playParser.add_argument('--song', choices=['test', 'animals'], default='test', help='choose song')
 
     displayParser = subparsers.add_parser('display', help='list display options')
     displayParser.add_argument('--characters', action="store_true", help='list only characters')
@@ -30,7 +31,7 @@ def main():
 
     args = parser.parse_args()
     if args.command == 'play':
-        dancer.play(args.difficulty, args.character)
+        dancer.play(args.difficulty, args.character, args.song)
     elif args.command == 'display':
         line = display.listDisplay(args)
         print(line)
