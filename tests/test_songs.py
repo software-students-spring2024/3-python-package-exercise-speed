@@ -17,7 +17,7 @@ class Tests:
     def test_rock_arg(self):
         actual = listSongs('rock')
         assert (
-            actual == 'Rock Songs:\n Blood And Steel'
+            actual == 'Rock Songs:\nBlood And Steel'
         ), f"Expected the text returned by listSongs('rock') to list rock songs.  Instead, it returned '{actual}'."
     def test_house_arg(self):
         actual = listSongs('house')
