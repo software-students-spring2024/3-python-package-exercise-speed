@@ -7,8 +7,8 @@ from .images import *
 import random
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
-def play():
-
+def play(difficulty="easy", character="girl", song="test"):
+    # TO DO: add theme
     pygame.init()
 
     pygame.font.init()
@@ -24,10 +24,33 @@ def play():
     # last_event_time = pygame.time.get_ticks()
 
     # Load background music
-    pygame.mixer.music.load("../static/song_data/animals.mp3")
+    # TO-DO: add more songs
+    if song == "animals":
+        pygame.mixer.music.load("../static/song_data/Animals.mp3")
+    else:
+        pygame.mixer.music.load("../static/song_data/test.mp3")
     pygame.mixer.music.play(1)  # Play the music once
 
+    # Validate difficulty_level input
+    if difficulty not in ["easy", "medium", "hard"]:
+        raise ValueError("Invalid difficulty level. Please choose from 'easy', 'medium', or 'hard'.")
+        
+    # setting keys_level and speed for various difficulty levels:
+    if  difficulty == "easy":
+        keys_level = 2
+        speed_level = 1
+    elif difficulty == "medium":
+        keys_level = 3
+        speed_level = 1.3
+    elif difficulty == "hard":
+        keys_level = 4
+        speed_level = 1.6
+
     # set up components 
+    if character == "girl":
+        dancer_image = dancer_image_girl
+    else:
+        dancer_image = dancer_image_boy
     dancer = Component(dancer_image, Pos(SCREEN_WIDTH * .5 , SCREEN_HEIGHT * .1))
     end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
 
@@ -72,12 +95,12 @@ def play():
                                 score += round(arrow.percent_inside_of(end_area) / 10)
 
             if event.type == ADD_ARROW:
-                # Randomly select the number of arrows to generate (1 or 2)
-                num_arrows = random.randint(1, 2)
+                # Randomly select the number of arrows to generate based on difficulty level
+                num_arrows = random.randint(1, keys_level)
                 for _ in range(num_arrows):
                     # Randomly select the direction for each arrow
                     direction = random.choice([Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT])
-                    arrows.append(generate_arrow(direction))
+                    arrows.append(generate_arrow(direction, speed_level))
 
         # check if music finished playing
         if not pygame.mixer.music.get_busy():
