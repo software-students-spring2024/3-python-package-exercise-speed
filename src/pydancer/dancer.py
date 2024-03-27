@@ -42,47 +42,18 @@ def play(difficulty="easy", character="girl", song="test"):
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                    # NOTE: You can check if an arrow is in the target area with
-                    # arrow.percent_inside_of(end_area)
-                    # it's fully inside if 100, it's out if 0, can be anywhere in between
-                    for arrow in arrows:
-                        # if the corresponding arrow is fully inside the target area, replace image with glowing
-                        # TODO: if not, play fail sound and make the animation glitch
-                        if arrow.percent_inside_of(end_area) == 100:
-                            if ((arrow.direction == Direction.LEFT and event.key == pygame.K_LEFT)
-                                or (arrow.direction == Direction.RIGHT and event.key == pygame.K_RIGHT)
-                                or (arrow.direction == Direction.UP and event.key == pygame.K_UP)
-                                or (arrow.direction == Direction.DOWN and event.key == pygame.K_DOWN)):
-                                arrow.set_arrow_status(Status.GLOWING)
-                                # 10 points if the arrow is inside the collision area
-                                score += 10
-                        elif arrow.percent_inside_of(end_area) > 0 and arrow.percent_inside_of(end_area) < 100:
-                            if ((arrow.direction == Direction.LEFT and event.key == pygame.K_LEFT)
-                                or (arrow.direction == Direction.RIGHT and event.key == pygame.K_RIGHT)
-                                or (arrow.direction == Direction.UP and event.key == pygame.K_UP)
-                                or (arrow.direction == Direction.DOWN and event.key == pygame.K_DOWN)):
-                                arrow.set_arrow_status(Status.GLOWING)
-                                # Calculate partial score for partial collision
-                                score += round(arrow.percent_inside_of(end_area) / 10)
+                    score = check_collision(arrows, end_area, event, score)
 
             if event.type == ADD_ARROW:
-                # Randomly select the number of arrows to generate based on difficulty level
-                num_arrows = random.randint(1, keys_level)
-                for _ in range(num_arrows):
-                    # Randomly select the direction for each arrow
-                    direction = random.choice([Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT])
-                    arrows.append(generate_arrow(direction, speed_level))
+                generate_arrows(arrows, keys_level, speed_level)
 
         # check if music finished playing
         if not pygame.mixer.music.get_busy():
             running = False
 
-        # delta time is needed to make updates independent of the frame rate
+        # delta time is needed to make updates independent of the frame rate to arrows
         delta_time = clock.tick(FPS)/1000
-
-        # update arrow positions
-        for arrow in arrows:
-            arrow.set_pos(Pos(arrow.pos.x, arrow.pos.y - arrow.speed * delta_time))
+        update_arrows(arrows, delta_time)
 
         # Draw screen
         screen.fill(BACKGROUND_COLOR)
@@ -110,7 +81,6 @@ def play(difficulty="easy", character="girl", song="test"):
     stop_music()
     display_final_score(score, font, screen, character)
     pygame.quit()
-
 
 def initialize_pygame():
     '''
@@ -166,6 +136,50 @@ def setup_components(character):
     dancer = Component(dancer_image, Pos(SCREEN_WIDTH * .5 , SCREEN_HEIGHT * .1))
     end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
     return dancer, end_area
+
+def check_collision(arrows, end_area, event, score):
+    '''
+    Function to check if an arrow was pressed in the collision zone (partially or fully)
+    Score is rewarded based off partial or full collision
+    If collision occurs, the arrow glows
+    '''
+    new_score = score
+    for arrow in arrows:
+        # TODO: if not, play fail sound and make the animation glitch
+        if arrow.percent_inside_of(end_area) == 100: # full collision
+            if ((arrow.direction == Direction.LEFT and event.key == pygame.K_LEFT)
+                or (arrow.direction == Direction.RIGHT and event.key == pygame.K_RIGHT)
+                or (arrow.direction == Direction.UP and event.key == pygame.K_UP)
+                or (arrow.direction == Direction.DOWN and event.key == pygame.K_DOWN)):
+                arrow.set_arrow_status(Status.GLOWING)
+                # 10 points if the arrow is inside the collision area
+                new_score += 10
+        elif arrow.percent_inside_of(end_area) > 0 and arrow.percent_inside_of(end_area) < 100: # partial collision
+            if ((arrow.direction == Direction.LEFT and event.key == pygame.K_LEFT)
+                or (arrow.direction == Direction.RIGHT and event.key == pygame.K_RIGHT)
+                or (arrow.direction == Direction.UP and event.key == pygame.K_UP)
+                or (arrow.direction == Direction.DOWN and event.key == pygame.K_DOWN)):
+                arrow.set_arrow_status(Status.GLOWING)
+                # Calculate partial score for partial collision
+                new_score += round(arrow.percent_inside_of(end_area) / 10)
+    return new_score
+
+def generate_arrows(arrows, keys_level, speed_level):
+    '''
+    Randomly generate arrows generate based on difficulty level
+    '''
+    num_arrows = random.randint(1, keys_level)
+    for _ in range(num_arrows):
+        # Randomly select the direction for each arrow
+        direction = random.choice([Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT])
+        arrows.append(generate_arrow(direction, speed_level))
+
+def update_arrows(arrows, delta_time):
+    '''
+    Function to update arrow positions with time delta_time
+    '''
+    for arrow in arrows:
+        arrow.set_pos(Pos(arrow.pos.x, arrow.pos.y - arrow.speed * delta_time))
 
 def stop_music():
     '''
