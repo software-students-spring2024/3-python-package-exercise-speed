@@ -4,10 +4,14 @@
 
 Python game version of the dance arcade game, using arrow keys to match the steps of the dance.
 
-Note: When writing the statements below, you may need to change all the statements below with `python3` to `python` depending on your python installation. 
+Note: When writing the statements below, you may need to change all the statements with `python3` to `python` depending on your python installation. 
 
 ## To play:
 `python3 -m pydancer play`
+
+You can change the song, difficult, and the character as shown below
+
+`python3 -m pydancer play --song two-in-the-rain --difficulty hard --character boy`
 
 ## To list display options:
 To list all display options,
@@ -55,7 +59,7 @@ how a developer who wants to contribute to your project can set up the virtual e
 
 Include a link to your package's page on the PyPI website. -->
 
-## Contributers
+## Contributors
 - [Glenda Boeker](https://github.com/gboeker)
 - [Shriya Kalakata](https://github.com/shriyakalakata)
 - [Ahmet Ilten](https://github.com/iltenahmet)
