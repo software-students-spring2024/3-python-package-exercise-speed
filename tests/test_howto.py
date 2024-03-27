@@ -17,11 +17,11 @@ class Tests:
     def test_long_true_arg(self):
         actual = printHowTo(True)
         assert (
-            actual == 'This is such an awesome game! Play with Up, Down, Left, Right arrows.'
+            actual == 'Pydancer is a python version of dance arcade games. To play, first enter the play command and its options listed in the README. Once the game screen pops up, press the corresponding arrow key when they enter the purple zone. You have until the end of the song to collect points. Try different difficulties to challenge yourself!'
         ), f"Expected the text returned by printHowTo(True) to list the long how-to guide.  Instead, it returned '{actual}'."
     def test_long_false_arg(self):
         actual = printHowTo(False)
         assert (
-            actual == 'awesome game, use arrows.'
+            actual == 'Press the corresponding arrow key when they enter the purple zone.'
         ), f"Expected the text returned by printHowTo(False) to list the short how-to guide.  Instead, it returned '{actual}'."
  
