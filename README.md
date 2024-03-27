@@ -13,36 +13,36 @@ You can change the song, difficult, and the character as shown below
 
 `python3 -m pydancer play --song two-in-the-rain --difficulty hard --character boy`
 
-## To list display options:
-To list all display options,
+## To list play options:
+To list all play options,
 
-`python3 -m pydancer display`
+`python3 -m pydancer options`
 
-To list only character display options,
+To list only character options,
 
-`python3 -m pydancer display --characters`
+`python3 -m pydancer options --characters`
 
-To list only theme display options,
+To list only difficulty options,
 
-`python3 -m pydancer display --themes`
+`python3 -m pydancer options --difficulties`
 
 ## To list songs:
 To list all songs,
 
 `python3 -m pydancer songs`
 
-To list songs by genre, for example country,
+To list songs by genre, for example rock,
 
-`python3 -m pydancer songs --genre country`
+`python3 -m pydancer songs --genre rock`
 
 ## To print how-to guide:
 To print the short how-to guide,
 
-`python3 -m pydancer howto`
+`python3 -m pydancer how-to`
 
 To print the long how-to guide,
 
-`python3 -m pydancer howto --long`
+`python3 -m pydancer how-to --long`
 
 
 ## Contributing
