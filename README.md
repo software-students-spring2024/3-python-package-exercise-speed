@@ -43,7 +43,15 @@ To print the long how-to guide,
 `python3 -m pydancer howto --long`
 
 
+Certainly! Here's a sample "Contributing" section for your README.md file:
 
+---
+
+## Contributing
+
+We welcome contributions from everyone! Before contributing, please read our [Contribution Guidelines](CONTRIBUTING.md) to understand our contribution process.
+
+If you find a bug or have a feature request, please open an issue on our [Issue Tracker](https://github.com/software-students-spring2024/3-python-package-exercise-speed/issues).
 
 <!-- 
 clear instructions, including exact code examples, for:
