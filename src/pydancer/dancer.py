@@ -7,7 +7,7 @@ from .images import *
 import random
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
-def play(difficulty="easy"):
+def play(difficulty="easy", character="girl"):
 
     pygame.init()
 
@@ -44,6 +44,10 @@ def play(difficulty="easy"):
         speed_level = 1.6
 
     # set up components 
+    if character == "girl":
+        dancer_image = dancer_image_girl
+    else:
+        dancer_image = dancer_image_boy
     dancer = Component(dancer_image, Pos(SCREEN_WIDTH * .5 , SCREEN_HEIGHT * .1))
     end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
 
