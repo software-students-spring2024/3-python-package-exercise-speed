@@ -82,4 +82,4 @@ If you'd like to contribute code, add documentation, or add tests, you can do so
 
 12. **Review and Merge**: After submitting a pull request, your changes will be reviewed by the project maintainers. Once approved, they will be merged into the main codebase.
 
-Thank you for your interest in contributing to [Your Library Name]! We appreciate your help in making this project better for everyone.
+Thank you for your interest in contributing to PyDancer! We appreciate your help in making this project better for everyone.
