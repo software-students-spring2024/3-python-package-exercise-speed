@@ -24,7 +24,7 @@ def main():
 
 
     songsParser = subparsers.add_parser('songs', help='list available songs')
-    songsParser.add_argument('--genre', choices=['country', 'pop'], help='genre name')
+    songsParser.add_argument('--genre', choices=['rock', 'house'], help='genre name')
 
     howToParser = subparsers.add_parser('howto', help='print how-to guide')
     howToParser.add_argument('--long', action="store_true", help='print longer description')
