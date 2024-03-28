@@ -33,6 +33,15 @@ class Tests:
 
     def test_load_music(self):
         pass
+        # with patch('pygame.mixer.music') as mixer:
+        #     #mixer.get_busy.return_value = True  # Simulate music playing
+        #     load_music("test")
+        #     mixer.load.assert_called_once_with("../static/music/test.mp3")
+        #     mixer.play.assert_called_once()
+        #     assert (mixer.get_busy() == True)
+
+
+
     # def test_load_music(self):
     #     pygame.init()
     #     load_music("test")
@@ -96,31 +105,23 @@ class Tests:
         assert(end_area.pos.y == SCREEN_HEIGHT * .3), f"Expected end_area.pos.y == SCREEN_HEIGHT * .3"
 
     def test_check_collision(self):
-        pass
-        '''
+
         arrows = []
+        arrow1 = generate_arrow(Direction.UP, 1)
+        arrow1.set_pos(Pos(100, 200))
+
+        arrow2 = generate_arrow(Direction.UP, 1)
+        arrow2.set_pos(Pos(0, 0))
+
+        arrows.append(arrow1)
+        arrows.append(arrow2)
+
         end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
+        event = pygame.event.Event(pygame.KEYDOWN, {'key': pygame.K_UP})
+        score = 0
 
-        arrows.append(generate_arrow(Direction.UP, 1))
-        arrows.append(generate_arrow(Direction.DOWN, 1))
-        arrows.append(generate_arrow(Direction.LEFT, 1))
-        arrows.append(generate_arrow(Direction.RIGHT, 1))
-
-        event_keys = [pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT]
-
-        for event in event_keys:
-            # Test full collision
-            score = 0
-            event = pygame.event.Event(pygame.KEYDOWN, {'key': pygame.K_UP})
-            new_score = check_collision(arrows, end_area, event, score)
-            assert new_score == 10
-
-            # Test partial collision
-            arrows[0].pos = Pos(100, 100)  # Move arrow to a position partially inside the end area
-            event = pygame.event.Event(pygame.KEYDOWN, {'key': pygame.K_UP})
-            new_score = check_collision(arrows, end_area, event, score)
-            assert new_score > 0 and new_score < 10  # Partial score should be between 0 and 10
-        '''
+        new_score = check_collision(arrows, end_area, event, score)
+        assert new_score > 0 and new_score < 10
 
     def test_generate_arrows(self):
         arrows = []
@@ -174,6 +175,12 @@ class Tests:
 
     def test_stop_music(self):
         pass
+        # with patch('pygame.mixer.music') as mixer:
+        #     mixer.get_busy.return_value = True  # Simulate music playing
+        #     stop_music()
+        #     actual = mixer.get_busy()
+        #     #mixer.stop.assert_called_once()
+        #     assert (actual == False)
 
         # pygame.mixer.init()
         # pygame.mixer.music.load("../static/music/test.mp3")
