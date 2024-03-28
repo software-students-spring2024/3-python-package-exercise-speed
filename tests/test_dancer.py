@@ -96,7 +96,8 @@ class Tests:
         pass
 
     def test_stop_music(self):
-        pass
+        stop_music()
+        assert not pygame.mixer.music.get_busy(), "music still playing"
 
     def test_render_screen(self):
         screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
