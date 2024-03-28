@@ -109,7 +109,7 @@ class Tests:
         for arrow in arrows:
             assert (arrow.direction in [Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT]), f"Invalid direction detected: {arrow.direction}."
             
-    def test_update_arrows(self):
+    def test_update_arrows_positions(self):
         clock = pygame.time.Clock()
         delta_time = clock.tick(FPS)/1000
 
@@ -189,3 +189,15 @@ class Tests:
         screen_surface = pygame.display.get_surface()
         text_rect = final_score_text.get_rect(center=screen_surface.get_rect().center)
         assert screen_surface.get_rect().colliderect(text_rect), "Final score text not on screen"
+
+    def test_update_arrows(self):
+        pass
+
+    def test_setup_pygame(self):
+        pass
+    
+    def handle_keydown(self):
+        pass
+
+    def game_loop(self):
+        pass
