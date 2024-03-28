@@ -2,6 +2,7 @@ import os
 os.chdir("./src")
 from src.pydancer.dancer import *
 import pygame
+os.environ['SDL_AUDIODRIVER'] = 'dsp'
 
 class Tests:
     def test_sanity_check(self):
