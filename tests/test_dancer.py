@@ -24,7 +24,9 @@ class Tests:
 
     def test_initialize_pygame(self):
         initialize_pygame()
-        assert pygame.get_init() == True
+        assert (
+            pygame.get_init() == True
+        ), f"Expected initialize_pygame to return True but returned False."
 
     # def test_load_music(self):
     #     load_music("test")
@@ -32,17 +34,30 @@ class Tests:
 
     def test_set_difficulty(self):
         keys_level, speed_level = set_difficulty("easy")
-        assert keys_level == 2 and speed_level == 1
+        assert (
+            keys_level == 2 and speed_level == 1
+        ), f"Expected set_difficulty('easy') to return keys_level = 2 and speed_level = 1. Instead, it returned keys_level = '{keys_level}' and speed_level = '{speed_level}'."
         keys_level, speed_level = set_difficulty("medium")
-        assert keys_level == 3 and speed_level == 1.3
+
+        assert (
+            keys_level == 3 and speed_level == 1.3
+        ), f"Expected set_difficulty('medium') to return keys_level = 3 and speed_level = 1.3. Instead, it returned keys_level = '{keys_level}' and speed_level = '{speed_level}'."
+
         keys_level, speed_level = set_difficulty("hard")
-        assert keys_level == 4 and speed_level == 1.6
+        assert (
+            keys_level == 4 and speed_level == 1.6
+        ), f"Expected set_difficulty('hard') to return keys_level = 4 and speed_level = 1.6. Instead, it returned keys_level = '{keys_level}' and speed_level = '{speed_level}'."
+
 
     def test_set_character_image(self):
         image = set_character_image("girl")
-        assert image == dancer_image_girl
+        assert (
+            image == dancer_image_girl
+        ), f"Expected image to be dancer_image_girl. Instead, it returned '{image}'."
         image = set_character_image("boy")
-        assert image == dancer_image_boy
+        assert (
+            image == dancer_image_boy
+        ), f"Expected image to be dancer_image_boy. Instead, it returned '{image}'."
 
     def test_setup_components(self):
         pass
