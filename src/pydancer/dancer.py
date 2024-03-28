@@ -10,29 +10,26 @@ import pygame
 
 def play(difficulty="easy", character="girl", song="test"):
     initialize_pygame()
-    # TODO: add theme
-    font = pygame.font.SysFont(None, 36)
 
     # variable to keep track of player's score
     score = 0
 
-    # Pygame setup
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    pygame.display.set_caption(GAME_NAME)
-    clock = pygame.time.Clock()
-
+    screen, clock, font = setup_pygame()
     load_music(song)
     keys_level, speed_level = set_difficulty(difficulty)
     dancer, end_area = setup_components(character)
 
+    # Set a timer to add an arrow to the screen every x milliseconds
+    add_arrow_event = pygame.USEREVENT 
+    milliseconds = 1406
+    pygame.time.set_timer(add_arrow_event, milliseconds)
     arrows = []
 
-    # Set a timer to add an arrow to the screen every x milliseconds
-    ADD_ARROW = pygame.USEREVENT 
-    milliseconds = 1406
-    pygame.time.set_timer(ADD_ARROW, milliseconds)
+    game_loop(arrows, end_area, score, keys_level, speed_level, font, screen, character, clock, dancer, add_arrow_event)
+        
+    pygame.quit()
 
-    # Game Loop
+def game_loop(arrows, end_area, score, keys_level, speed_level, font, screen, character, clock, dancer, add_arrow_event):
     running = True
     while running:
         # Check for events
@@ -41,11 +38,10 @@ def play(difficulty="easy", character="girl", song="test"):
                 running = False 
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                    score = check_collision(arrows, end_area, event, score)
+                score = handle_keydown(arrows, end_area, event, score)
 
-            if event.type == ADD_ARROW:
-                generate_arrows(arrows, keys_level, speed_level)
+            if event.type == add_arrow_event:
+                arrows = generate_arrows(arrows, keys_level, speed_level)
 
         # running = music_status()
         if not music_is_playing():
@@ -55,24 +51,13 @@ def play(difficulty="easy", character="girl", song="test"):
 
         # delta time is needed to make updates independent of the frame rate to arrows
         delta_time = clock.tick(FPS)/1000
-        update_arrows(arrows, delta_time)
+        arrows = update_arrows(arrows, delta_time, end_area)
 
         render_screen(screen, end_area, dancer, arrows)
         display_score(score, font, screen)
 
-        for arrow in arrows:
-            # grey_out arrows that are above the end area
-            if arrow.is_above(end_area) and arrow.status != Status.GLOWING:
-                arrow.set_arrow_status(Status.OUTLINE)
-            # remove arrows that go out of the screen
-            if arrow.pos.y < -arrow.image.get_height():
-                # NOTE: This is terrible in terms big-O however the number 
-                # of arrows on screen will never be too big to cause trouble
-                arrows.remove(arrow)
-
         pygame.display.flip()
-    
-    pygame.quit()
+
 
 def initialize_pygame():
     '''
@@ -164,12 +149,7 @@ def generate_arrows(arrows, keys_level, speed_level):
         direction = random.choice([Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT])
         arrows.append(generate_arrow(direction, speed_level))
 
-def update_arrows(arrows, delta_time):
-    '''
-    Function to update arrow positions with time delta_time
-    '''
-    for arrow in arrows:
-        arrow.set_pos(Pos(arrow.pos.x, arrow.pos.y - arrow.speed * delta_time))
+    return arrows
 
 def music_is_playing():
     '''
@@ -221,3 +201,40 @@ def display_final_score(score, font, screen, character):
     screen.blit(final_score_text, ((SCREEN_WIDTH - final_score_text.get_width()) // 2, (SCREEN_HEIGHT - final_score_text.get_height()) // 2))
     pygame.display.flip()
     pygame.time.wait(5000)
+
+def handle_keydown(arrows, end_area, event, score):
+    if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+        score = check_collision(arrows, end_area, event, score)
+    return score
+
+def update_arrow_positions(arrows, delta_time):
+    '''
+    Function to update arrow positions with time delta_time
+    '''
+    for arrow in arrows:
+        arrow.set_pos(Pos(arrow.pos.x, arrow.pos.y - arrow.speed * delta_time))
+
+    return arrows
+
+def update_arrows(arrows, delta_time, end_area):
+    arrows = update_arrow_positions(arrows, delta_time)
+    for arrow in arrows:
+        # grey_out arrows that are above the end area
+        if arrow.is_above(end_area) and arrow.status != Status.GLOWING:
+            arrow.set_arrow_status(Status.OUTLINE)
+        # remove arrows that go out of the screen
+        if arrow.pos.y < -arrow.image.get_height():
+            # NOTE: This is terrible in terms of big-O however the number 
+            # of arrows on screen will never be too big to cause trouble
+            arrows.remove(arrow)
+
+    return arrows
+    
+def setup_pygame():
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.display.set_caption(GAME_NAME)
+    clock = pygame.time.Clock()
+    font = pygame.font.SysFont(None, 36)
+    return screen, clock, font
+
+
