@@ -72,7 +72,11 @@ class Tests:
         pass
 
     def test_music_status(self):
-        pass
+        status = pygame.mixer.music.get_busy()
+        actual = music_status()
+        assert (
+            status == actual
+        ), f"Expected pygame.mixer.music.get_busy() == output of music_status(). Instead, pygame.mixer.music.get_busy() returned '{status}' and music_status() returned '{actual}'."
 
     def test_stop_music(self):
         pass
