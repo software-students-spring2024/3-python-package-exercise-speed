@@ -194,7 +194,14 @@ class Tests:
         pass
 
     def test_setup_pygame(self):
-        pass
+        screen, clock, font = setup_pygame()
+        
+        assert isinstance(screen, pygame.Surface), "Screen is not an instance of pygame.Surface"
+        assert isinstance(clock, pygame.time.Clock), "Clock is not an instance of pygame.time.Clock"
+        assert isinstance(font, pygame.font.Font), "Font is not an instance of pygame.font.Font"
+        assert screen.get_width() == SCREEN_WIDTH, f"Screen width is {screen.get_width()}, expected {SCREEN_WIDTH}."
+        assert screen.get_height() == SCREEN_HEIGHT, f"Screen height is {screen.get_height()}, expected {SCREEN_HEIGHT}."
+        assert pygame.display.get_caption()[0] == GAME_NAME, f"Game name is {pygame.display.get_caption()[0]}, expected {GAME_NAME}."
     
     def handle_keydown(self):
         pass
