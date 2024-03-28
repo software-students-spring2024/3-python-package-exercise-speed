@@ -14,13 +14,13 @@ class Tests:
         actual = True  # the value we see in reality
         assert actual == expected, "Expected True to be equal to True!"
 
-    # def test_play(self):
-    #     pygame.init()
-    #     try:
-    #         play()
-    #     except Exception as e:
-    #         assert False, f"Error occurred while running the game loop: {e}"
-    #     pygame.quit() 
+    def test_play(self):
+        pygame.init()
+        try:
+            play(run_game=False)
+        except Exception as e:
+            assert False, f"Error occurred while running the game loop: {e}"
+        pygame.quit() 
 
     def test_initialize_pygame(self):
         initialize_pygame()
@@ -92,7 +92,7 @@ class Tests:
     def test_update_arrows(self):
         pass
 
-    def test_music_status(self):
+    def test_music_is_playing(self):
         pass
 
     def test_stop_music(self):
