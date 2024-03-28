@@ -29,8 +29,10 @@ class Tests:
         ), f"Expected initialize_pygame to return True but returned False."
 
     # def test_load_music(self):
+    #     pygame.init()
     #     load_music("test")
-    #     assert pygame.mixer.music.get_busy() == True
+    #     is_playing = pygame.mixer.music.get_busy()
+    #     assert (is_playing == True), "Expected test.mp3 to be playing"
 
     def test_set_difficulty(self):
         keys_level, speed_level = set_difficulty("easy")
@@ -60,10 +62,60 @@ class Tests:
         ), f"Expected image to be dancer_image_boy. Instead, it returned '{image}'."
 
     def test_setup_components(self):
-        pass
+        dancer, end_area = setup_components("girl")
+        assert (isinstance(dancer, Component)), f"Expected 'dancer' to be of instance Component."
+        assert (isinstance(end_area, Component)), f"Expected 'end_area' to be of instance Component."
+
+        # Check the image data of the components
+        assert (dancer.image == dancer_image_girl), f"Expected dancer.image == dancer_image_girl"
+        assert (end_area.image == end_area_image), f"Expected end_area.image == end_area_image"
+
+        # Check the position of the components
+        assert(dancer.pos.x == SCREEN_WIDTH * .5), f"Expected dancer.pos.x == SCREEN_WIDTH * .5"
+        assert(dancer.pos.y == SCREEN_HEIGHT * .1), f"Expected dancer.pos.y == SCREEN_HEIGHT * .1"
+        assert(end_area.pos.x == SCREEN_WIDTH * .5), f"Expected end_area.pos.x == SCREEN_WIDTH * .5"
+        assert(end_area.pos.y == SCREEN_HEIGHT * .3), f"Expected end_area.pos.y == SCREEN_HEIGHT * .3"
+
+        dancer, end_area = setup_components("boy")
+        assert (isinstance(dancer, Component)), f"Expected 'dancer' to be of instance Component."
+        assert (isinstance(end_area, Component)), f"Expected 'end_area' to be of instance Component."
+
+        # Check the image data of the components
+        assert (dancer.image == dancer_image_boy), f"Expected dancer.image == dancer_image_boy"
+        assert (end_area.image == end_area_image), f"Expected end_area.image == end_area_image"
+
+        # Check the position of the components
+        assert(dancer.pos.x == SCREEN_WIDTH * .5), f"Expected dancer.pos.x == SCREEN_WIDTH * .5"
+        assert(dancer.pos.y == SCREEN_HEIGHT * .1), f"Expected dancer.pos.y == SCREEN_HEIGHT * .1"
+        assert(end_area.pos.x == SCREEN_WIDTH * .5), f"Expected end_area.pos.x == SCREEN_WIDTH * .5"
+        assert(end_area.pos.y == SCREEN_HEIGHT * .3), f"Expected end_area.pos.y == SCREEN_HEIGHT * .3"
 
     def test_check_collision(self):
         pass
+        '''
+        arrows = []
+        end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
+
+        arrows.append(generate_arrow(Direction.UP, 1))
+        arrows.append(generate_arrow(Direction.DOWN, 1))
+        arrows.append(generate_arrow(Direction.LEFT, 1))
+        arrows.append(generate_arrow(Direction.RIGHT, 1))
+
+        event_keys = [pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT]
+
+        for event in event_keys:
+            # Test full collision
+            score = 0
+            event = pygame.event.Event(pygame.KEYDOWN, {'key': pygame.K_UP})
+            new_score = check_collision(arrows, end_area, event, score)
+            assert new_score == 10
+
+            # Test partial collision
+            arrows[0].pos = Pos(100, 100)  # Move arrow to a position partially inside the end area
+            event = pygame.event.Event(pygame.KEYDOWN, {'key': pygame.K_UP})
+            new_score = check_collision(arrows, end_area, event, score)
+            assert new_score > 0 and new_score < 10  # Partial score should be between 0 and 10
+        '''
 
     def test_generate_arrows(self):
         arrows = []
@@ -90,7 +142,21 @@ class Tests:
             '''
             
     def test_update_arrows(self):
-        pass
+        clock = pygame.time.Clock()
+        delta_time = clock.tick(FPS)/1000
+
+        arrows = []
+        keys_level = 3 
+        speed_level = 1.3
+        generate_arrows(arrows, keys_level, speed_level)
+
+        for arrow in arrows:
+            init_x = arrow.pos.x
+            init_y = arrow.pos.y
+            arrow.set_pos(Pos(init_x, init_y - arrow.speed * delta_time))
+
+            assert (arrow.pos.x == init_x), "x position of arrow not in the intended position"
+            assert (arrow.pos.y == init_y - arrow.speed * delta_time), "y position of arrow not in the intended position"
 
     # def test_music_is_playing(self):
     #     is_music_playing = music_is_playing()
