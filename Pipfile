@@ -9,6 +9,7 @@ build = "*"
 requests = "*"
 pygame = "*"
 coverage = "*"
+pytest = "*"
 
 [dev-packages]
 
