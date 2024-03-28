@@ -71,7 +71,8 @@ class Tests:
     def test_update_arrows(self):
         pass
 
-    def test_music_status(self):
+    def test_music_status_test(self):
+        pygame.mixer.music.load("../static/music/test.mp3")
         status = pygame.mixer.music.get_busy()
         actual = music_status()
         assert (
