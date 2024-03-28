@@ -92,14 +92,32 @@ class Tests:
     def test_update_arrows(self):
         pass
 
-    def test_music_is_playing(self):
-        pass
+    # def test_music_is_playing(self):
+    #     is_music_playing = music_is_playing()
+    #     should = pygame.mixer.music.get_busy()
+    #     assert is_music_playing == should, f"music should be {should}, whereas actual is {is_music_playing}"
 
-    def test_stop_music(self):
-        pass
+    # def test_stop_music(self):
+        # pygame.mixer.init()
+        # pygame.mixer.music.load("../static/music/test.mp3")
+        # pygame.mixer.music.play(1) # Play the music once
+        # stop_music()
+        # assert not pygame.mixer.music.get_busy(), "music still playing"
 
     def test_render_screen(self):
-        pass
+        screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        dancer = Component(dancer_image_girl, Pos(SCREEN_WIDTH * .5 , SCREEN_HEIGHT * .1))
+        end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
+        render_screen(screen, end_area, dancer, [generate_arrow(Direction.UP, 4)])
+
+        # Check if the dancer is visible on the screen
+        dancer_rect = pygame.Rect(dancer.pos.x, dancer.pos.y, dancer.image.get_width(), dancer.image.get_height())
+        assert screen.get_rect().colliderect(dancer_rect), "Dancer is not on the screen"
+
+        # Check if the end area is visible on the screen
+        end_area_rect = pygame.Rect(end_area.pos.x, end_area.pos.y, end_area.image.get_width(), end_area.image.get_height())
+        assert screen.get_rect().colliderect(end_area_rect), "End area is not on the screen"
+
 
     def test_display_score(self):
         font = pygame.font.SysFont(None, 36)
