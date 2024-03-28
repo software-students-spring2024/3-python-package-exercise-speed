@@ -8,7 +8,7 @@ environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 import pygame
 
-def play(difficulty="easy", character="girl", song="test", run_game=True):
+def play(difficulty="easy", character="girl", song="test"):
     initialize_pygame()
     # TODO: add theme
     font = pygame.font.SysFont(None, 36)
@@ -34,7 +34,7 @@ def play(difficulty="easy", character="girl", song="test", run_game=True):
 
     # Game Loop
     running = True
-    while running and run_game:
+    while running:
         # Check for events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -51,6 +51,7 @@ def play(difficulty="easy", character="girl", song="test", run_game=True):
         if not music_is_playing():
             stop_music()
             display_final_score(score, font, screen, character)
+            pygame.quit()
 
         # delta time is needed to make updates independent of the frame rate to arrows
         delta_time = clock.tick(FPS)/1000
