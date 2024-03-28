@@ -39,6 +39,7 @@ def play(difficulty="easy", character="girl", song="test"):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False 
+                break
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
@@ -52,6 +53,7 @@ def play(difficulty="easy", character="girl", song="test"):
             stop_music()
             display_final_score(score, font, screen, character)
             pygame.quit()
+            break
 
         # delta time is needed to make updates independent of the frame rate to arrows
         delta_time = clock.tick(FPS)/1000
