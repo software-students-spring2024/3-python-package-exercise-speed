@@ -15,13 +15,12 @@ class Tests:
         assert actual == expected, "Expected True to be equal to True!"
 
     def test_play(self):
-        # pygame.init()
+        pygame.init()
         try:
             play()
         except Exception as e:
             assert False, f"Error occurred while running the game loop: {e}"
-
-        # pygame.quit() 
+        pygame.quit() 
 
     def test_initialize_pygame(self):
         initialize_pygame()
