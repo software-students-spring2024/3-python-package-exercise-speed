@@ -41,8 +41,7 @@ def play(difficulty="easy", character="girl", song="test"):
                 running = False 
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                    score = check_collision(arrows, end_area, event, score)
+                score = handle_keydown(arrows, end_area, event, score)
 
             if event.type == ADD_ARROW:
                 generate_arrows(arrows, keys_level, speed_level)
@@ -66,7 +65,7 @@ def play(difficulty="easy", character="girl", song="test"):
                 arrow.set_arrow_status(Status.OUTLINE)
             # remove arrows that go out of the screen
             if arrow.pos.y < -arrow.image.get_height():
-                # NOTE: This is terrible in terms big-O however the number 
+                # NOTE: This is terrible in terms of big-O however the number 
                 # of arrows on screen will never be too big to cause trouble
                 arrows.remove(arrow)
 
@@ -221,3 +220,9 @@ def display_final_score(score, font, screen, character):
     screen.blit(final_score_text, ((SCREEN_WIDTH - final_score_text.get_width()) // 2, (SCREEN_HEIGHT - final_score_text.get_height()) // 2))
     pygame.display.flip()
     pygame.time.wait(5000)
+
+def handle_keydown(arrows, end_area, event, score):
+    if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+        score = check_collision(arrows, end_area, event, score)
+    return score
+
