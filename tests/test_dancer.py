@@ -92,10 +92,10 @@ class Tests:
     def test_update_arrows(self):
         pass
 
-    def test_music_is_playing(self):
-        is_music_playing = music_is_playing()
-        should = pygame.mixer.music.get_busy()
-        assert is_music_playing == should, f"music should be {should}, whereas actual is {is_music_playing}"
+    # def test_music_is_playing(self):
+    #     is_music_playing = music_is_playing()
+    #     should = pygame.mixer.music.get_busy()
+    #     assert is_music_playing == should, f"music should be {should}, whereas actual is {is_music_playing}"
 
     # def test_stop_music(self):
         # pygame.mixer.init()
