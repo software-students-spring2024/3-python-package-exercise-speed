@@ -66,8 +66,29 @@ class Tests:
         pass
 
     def test_generate_arrows(self):
-        pass
+        arrows = []
+        keys_level = 3 
+        speed_level = 1.3
+        generate_arrows(arrows, keys_level, speed_level)
+        
+        assert (
+            len(arrows) <= keys_level
+        ), f"Expected len(arrows) <= keys_level. Instead, len(arrows) > keys_level."
+        assert (
+            len(arrows) >= 1
+        ), f"Expected len(arrows) >= 1. Instead, len(arrows) < 1."
 
+        # Check if each arrow in the list has a valid direction and speed
+        for arrow in arrows:
+            assert (
+                arrow.direction in [Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT]
+            ), f"Invalid direction detected: {arrow.direction}."
+            '''
+            assert (
+                arrow.speed == speed_level
+            ), f"Expected speed level: {speed_level}. Instead, speed level detected detected {arrow.speed}."
+            '''
+            
     def test_update_arrows(self):
         pass
 
