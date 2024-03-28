@@ -54,20 +54,10 @@ def play(difficulty="easy", character="girl", song="test"):
 
         # delta time is needed to make updates independent of the frame rate to arrows
         delta_time = clock.tick(FPS)/1000
-        update_arrows(arrows, delta_time)
+        update_arrows(arrows, delta_time, end_area)
 
         render_screen(screen, end_area, dancer, arrows)
         display_score(score, font, screen)
-
-        for arrow in arrows:
-            # grey_out arrows that are above the end area
-            if arrow.is_above(end_area) and arrow.status != Status.GLOWING:
-                arrow.set_arrow_status(Status.OUTLINE)
-            # remove arrows that go out of the screen
-            if arrow.pos.y < -arrow.image.get_height():
-                # NOTE: This is terrible in terms of big-O however the number 
-                # of arrows on screen will never be too big to cause trouble
-                arrows.remove(arrow)
 
         pygame.display.flip()
     
@@ -163,13 +153,6 @@ def generate_arrows(arrows, keys_level, speed_level):
         direction = random.choice([Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT])
         arrows.append(generate_arrow(direction, speed_level))
 
-def update_arrows(arrows, delta_time):
-    '''
-    Function to update arrow positions with time delta_time
-    '''
-    for arrow in arrows:
-        arrow.set_pos(Pos(arrow.pos.x, arrow.pos.y - arrow.speed * delta_time))
-
 def music_is_playing():
     '''
     Function to check if music finished playing
@@ -226,3 +209,22 @@ def handle_keydown(arrows, end_area, event, score):
         score = check_collision(arrows, end_area, event, score)
     return score
 
+def update_arrow_positions(arrows, delta_time):
+    '''
+    Function to update arrow positions with time delta_time
+    '''
+    for arrow in arrows:
+        arrow.set_pos(Pos(arrow.pos.x, arrow.pos.y - arrow.speed * delta_time))
+
+def update_arrows(arrows, delta_time, end_area):
+    update_arrow_positions(arrows, delta_time)
+    for arrow in arrows:
+        # grey_out arrows that are above the end area
+        if arrow.is_above(end_area) and arrow.status != Status.GLOWING:
+            arrow.set_arrow_status(Status.OUTLINE)
+        # remove arrows that go out of the screen
+        if arrow.pos.y < -arrow.image.get_height():
+            # NOTE: This is terrible in terms of big-O however the number 
+            # of arrows on screen will never be too big to cause trouble
+            arrows.remove(arrow)
+    
