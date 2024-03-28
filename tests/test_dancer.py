@@ -97,6 +97,8 @@ class Tests:
 
     def test_stop_music(self):
         pygame.mixer.init()
+        pygame.mixer.music.load("../static/music/test.mp3")
+        pygame.mixer.music.play(1) # Play the music once
         stop_music()
         assert not pygame.mixer.music.get_busy(), "music still playing"
 
