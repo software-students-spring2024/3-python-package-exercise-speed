@@ -60,7 +60,33 @@ class Tests:
         ), f"Expected image to be dancer_image_boy. Instead, it returned '{image}'."
 
     def test_setup_components(self):
-        pass
+        dancer, end_area = setup_components("girl")
+        assert (isinstance(dancer, Component)), f"Expected 'dancer' to be of instance Component."
+        assert (isinstance(end_area, Component)), f"Expected 'end_area' to be of instance Component."
+
+        # Check the image data of the components
+        assert (dancer.image == dancer_image_girl), f"Expected dancer.image == dancer_image_girl"
+        assert (end_area.image == end_area_image), f"Expected end_area.image == end_area_image"
+
+        # Check the position of the components
+        assert(dancer.pos.x == SCREEN_WIDTH * .5), f"Expected dancer.pos.x == SCREEN_WIDTH * .5"
+        assert(dancer.pos.y == SCREEN_HEIGHT * .1), f"Expected dancer.pos.y == SCREEN_HEIGHT * .1"
+        assert(end_area.pos.x == SCREEN_WIDTH * .5), f"Expected end_area.pos.x == SCREEN_WIDTH * .5"
+        assert(end_area.pos.y == SCREEN_HEIGHT * .3), f"Expected end_area.pos.y == SCREEN_HEIGHT * .3"
+
+        dancer, end_area = setup_components("boy")
+        assert (isinstance(dancer, Component)), f"Expected 'dancer' to be of instance Component."
+        assert (isinstance(end_area, Component)), f"Expected 'end_area' to be of instance Component."
+
+        # Check the image data of the components
+        assert (dancer.image == dancer_image_boy), f"Expected dancer.image == dancer_image_boy"
+        assert (end_area.image == end_area_image), f"Expected end_area.image == end_area_image"
+
+        # Check the position of the components
+        assert(dancer.pos.x == SCREEN_WIDTH * .5), f"Expected dancer.pos.x == SCREEN_WIDTH * .5"
+        assert(dancer.pos.y == SCREEN_HEIGHT * .1), f"Expected dancer.pos.y == SCREEN_HEIGHT * .1"
+        assert(end_area.pos.x == SCREEN_WIDTH * .5), f"Expected end_area.pos.x == SCREEN_WIDTH * .5"
+        assert(end_area.pos.y == SCREEN_HEIGHT * .3), f"Expected end_area.pos.y == SCREEN_HEIGHT * .3"
 
     def test_check_collision(self):
         pass
