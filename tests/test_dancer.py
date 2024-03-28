@@ -166,15 +166,11 @@ class Tests:
     def test_music_is_playing(self):
         with patch('pygame.mixer.music') as mixer:
             mixer.get_busy.return_value = True  # Simulate music playing
-            assert music_is_playing() == True
+            assert (music_is_playing() == True), "Expected music_is_playing() == True, but returned False"
 
         with patch('pygame.mixer.music') as mixer:
             mixer.get_busy.return_value = False # Simulate music not playing
-            assert music_is_playing() == False
-        
-    #     is_music_playing = music_is_playing()
-    #     should = pygame.mixer.music.get_busy()
-    #     assert is_music_playing == should, f"music should be {should}, whereas actual is {is_music_playing}"
+            assert music_is_playing() == False, "Expected music_is_playing() == False, but returned True"
 
     def test_stop_music(self):
         pass
