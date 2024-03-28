@@ -7,8 +7,7 @@ from os import environ
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 import pygame
-from pygame import mixer
-mixer.init()
+
 
 def play(difficulty="easy", character="girl", song="test"):
     initialize_pygame()
