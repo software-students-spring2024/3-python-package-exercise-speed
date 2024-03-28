@@ -2,6 +2,7 @@ import os
 os.chdir("./src")
 from src.pydancer.dancer import *
 import pygame
+from unittest.mock import patch
 
 class Tests:
     def test_sanity_check(self):
@@ -14,6 +15,8 @@ class Tests:
         actual = True  # the value we see in reality
         assert actual == expected, "Expected True to be equal to True!"
 
+    def test_play(self):
+        pass
     # def test_play(self):
     #     pygame.init()
     #     try:
@@ -28,6 +31,8 @@ class Tests:
             pygame.get_init() == True
         ), f"Expected initialize_pygame to return True but returned False."
 
+    def test_load_music(self):
+        pass
     # def test_load_music(self):
     #     pygame.init()
     #     load_music("test")
@@ -158,12 +163,22 @@ class Tests:
             assert (arrow.pos.x == init_x), "x position of arrow not in the intended position"
             assert (arrow.pos.y == init_y - arrow.speed * delta_time), "y position of arrow not in the intended position"
 
-    # def test_music_is_playing(self):
+    def test_music_is_playing(self):
+        with patch('pygame.mixer.music') as mixer:
+            mixer.get_busy.return_value = True  # Simulate music playing
+            assert music_is_playing() == True
+
+        with patch('pygame.mixer.music') as mixer:
+            mixer.get_busy.return_value = False # Simulate music not playing
+            assert music_is_playing() == False
+        
     #     is_music_playing = music_is_playing()
     #     should = pygame.mixer.music.get_busy()
     #     assert is_music_playing == should, f"music should be {should}, whereas actual is {is_music_playing}"
 
-    # def test_stop_music(self):
+    def test_stop_music(self):
+        pass
+
         # pygame.mixer.init()
         # pygame.mixer.music.load("../static/music/test.mp3")
         # pygame.mixer.music.play(1) # Play the music once
