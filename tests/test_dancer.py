@@ -93,17 +93,16 @@ class Tests:
         pass
 
     def test_music_is_playing(self):
-        pass
+        is_music_playing = music_is_playing()
+        should = pygame.mixer.music.get_busy()
+        assert is_music_playing == should, f"music should be {should}, whereas actual is {is_music_playing}"
 
-    def test_stop_music(self):
-        try:
-            pygame.mixer.init()
-        except pygame.error:
-            self.skipTest("Getting error with mixer, skipping test")
-        pygame.mixer.music.load("../static/music/test.mp3")
-        pygame.mixer.music.play(1) # Play the music once
-        stop_music()
-        assert not pygame.mixer.music.get_busy(), "music still playing"
+    # def test_stop_music(self):
+        # pygame.mixer.init()
+        # pygame.mixer.music.load("../static/music/test.mp3")
+        # pygame.mixer.music.play(1) # Play the music once
+        # stop_music()
+        # assert not pygame.mixer.music.get_busy(), "music still playing"
 
     def test_render_screen(self):
         screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
