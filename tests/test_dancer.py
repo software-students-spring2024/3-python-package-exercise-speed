@@ -16,6 +16,7 @@ class Tests:
 
     def test_play(self):
         pygame.init()
+        pygame.mixer.init()
         try:
             play(run_game=False)
         except Exception as e:
