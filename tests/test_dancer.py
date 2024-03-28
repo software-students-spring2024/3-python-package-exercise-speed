@@ -89,4 +89,16 @@ class Tests:
         pass
 
     def test_display_final_score(self):
-        pass
+        font = pygame.font.SysFont(None, 36)
+        screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        display_final_score(782, font, screen, "girl")
+        final_score_text = font.render("Final Score: 782", True, (0, 0, 0))
+        # put on screen
+        screen.blit(final_score_text, ((SCREEN_WIDTH - final_score_text.get_width()) // 2, (SCREEN_HEIGHT - final_score_text.get_height()) // 2))
+        pygame.display.flip()
+        # check if text is on screen
+        screen_surface = pygame.display.get_surface()
+        text_rect = final_score_text.get_rect(center=screen_surface.get_rect().center)
+        assert screen_surface.get_rect().colliderect(text_rect), "Final score text not on screen"
+
+
