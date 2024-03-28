@@ -96,6 +96,7 @@ class Tests:
         pass
 
     def test_stop_music(self):
+        pygame.mixer.init()
         stop_music()
         assert not pygame.mixer.music.get_busy(), "music still playing"
 
