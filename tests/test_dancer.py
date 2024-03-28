@@ -6,18 +6,12 @@ from unittest.mock import patch
 
 class Tests:
     def test_sanity_check(self):
-        """
-        Test debugging... making sure that we can run a simple test that always passes.
-        Note the use of the example_fixture in the parameter list - any setup and teardown in that fixture will be run before and after this test function executes
-        From the main project directory, run the `python3 -m pytest` command to run all tests.
-        """
         expected = True  # the value we expect to be present
         actual = True  # the value we see in reality
         assert actual == expected, "Expected True to be equal to True!"
 
     def test_play(self):
         pass
-    # def test_play(self):
     #     pygame.init()
     #     try:
     #         play(run_game=False)
@@ -27,9 +21,7 @@ class Tests:
 
     def test_initialize_pygame(self):
         initialize_pygame()
-        assert (
-            pygame.get_init() == True
-        ), f"Expected initialize_pygame to return True but returned False."
+        assert (pygame.get_init() == True), f"Expected initialize_pygame to return True but returned False."
 
     def test_load_music(self):
         pass
@@ -40,40 +32,21 @@ class Tests:
         #     mixer.play.assert_called_once()
         #     assert (mixer.get_busy() == True)
 
-
-
-    # def test_load_music(self):
-    #     pygame.init()
-    #     load_music("test")
-    #     is_playing = pygame.mixer.music.get_busy()
-    #     assert (is_playing == True), "Expected test.mp3 to be playing"
-
     def test_set_difficulty(self):
         keys_level, speed_level = set_difficulty("easy")
-        assert (
-            keys_level == 2 and speed_level == 1
-        ), f"Expected set_difficulty('easy') to return keys_level = 2 and speed_level = 1. Instead, it returned keys_level = '{keys_level}' and speed_level = '{speed_level}'."
+        assert (keys_level == 2 and speed_level == 1), f"Expected set_difficulty('easy') to return keys_level = 2 and speed_level = 1. Instead, it returned keys_level = '{keys_level}' and speed_level = '{speed_level}'."
         keys_level, speed_level = set_difficulty("medium")
 
-        assert (
-            keys_level == 3 and speed_level == 1.3
-        ), f"Expected set_difficulty('medium') to return keys_level = 3 and speed_level = 1.3. Instead, it returned keys_level = '{keys_level}' and speed_level = '{speed_level}'."
+        assert (keys_level == 3 and speed_level == 1.3), f"Expected set_difficulty('medium') to return keys_level = 3 and speed_level = 1.3. Instead, it returned keys_level = '{keys_level}' and speed_level = '{speed_level}'."
 
         keys_level, speed_level = set_difficulty("hard")
-        assert (
-            keys_level == 4 and speed_level == 1.6
-        ), f"Expected set_difficulty('hard') to return keys_level = 4 and speed_level = 1.6. Instead, it returned keys_level = '{keys_level}' and speed_level = '{speed_level}'."
-
+        assert (keys_level == 4 and speed_level == 1.6), f"Expected set_difficulty('hard') to return keys_level = 4 and speed_level = 1.6. Instead, it returned keys_level = '{keys_level}' and speed_level = '{speed_level}'."
 
     def test_set_character_image(self):
         image = set_character_image("girl")
-        assert (
-            image == dancer_image_girl
-        ), f"Expected image to be dancer_image_girl. Instead, it returned '{image}'."
+        assert (image == dancer_image_girl), f"Expected image to be dancer_image_girl. Instead, it returned '{image}'."
         image = set_character_image("boy")
-        assert (
-            image == dancer_image_boy
-        ), f"Expected image to be dancer_image_boy. Instead, it returned '{image}'."
+        assert (image == dancer_image_boy), f"Expected image to be dancer_image_boy. Instead, it returned '{image}'."
 
     def test_setup_components(self):
         dancer, end_area = setup_components("girl")
@@ -121,7 +94,7 @@ class Tests:
         score = 0
 
         new_score = check_collision(arrows, end_area, event, score)
-        assert new_score > 0 and new_score < 10
+        assert (new_score > 0 and new_score < 10), f"Expected score > 0 and score < 10. Instead, returned score = '{new_score}'."
 
     def test_generate_arrows(self):
         arrows = []
@@ -129,23 +102,12 @@ class Tests:
         speed_level = 1.3
         generate_arrows(arrows, keys_level, speed_level)
         
-        assert (
-            len(arrows) <= keys_level
-        ), f"Expected len(arrows) <= keys_level. Instead, len(arrows) > keys_level."
-        assert (
-            len(arrows) >= 1
-        ), f"Expected len(arrows) >= 1. Instead, len(arrows) < 1."
+        assert (len(arrows) <= keys_level), f"Expected len(arrows) <= keys_level. Instead, len(arrows) > keys_level."
+        assert (len(arrows) >= 1), f"Expected len(arrows) >= 1. Instead, len(arrows) < 1."
 
         # Check if each arrow in the list has a valid direction and speed
         for arrow in arrows:
-            assert (
-                arrow.direction in [Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT]
-            ), f"Invalid direction detected: {arrow.direction}."
-            '''
-            assert (
-                arrow.speed == speed_level
-            ), f"Expected speed level: {speed_level}. Instead, speed level detected detected {arrow.speed}."
-            '''
+            assert (arrow.direction in [Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT]), f"Invalid direction detected: {arrow.direction}."
             
     def test_update_arrows(self):
         clock = pygame.time.Clock()
@@ -201,7 +163,6 @@ class Tests:
         # Check if the end area is visible on the screen
         end_area_rect = pygame.Rect(end_area.pos.x, end_area.pos.y, end_area.image.get_width(), end_area.image.get_height())
         assert screen.get_rect().colliderect(end_area_rect), "End area is not on the screen"
-
 
     def test_display_score(self):
         font = pygame.font.SysFont(None, 36)
