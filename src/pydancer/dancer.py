@@ -8,10 +8,9 @@ environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 import pygame
 
-
 def play(difficulty="easy", character="girl", song="test"):
-    # TO DO: add theme
     initialize_pygame()
+    # TODO: add theme
     font = pygame.font.SysFont(None, 36)
 
     # variable to keep track of player's score
@@ -48,7 +47,11 @@ def play(difficulty="easy", character="girl", song="test"):
             if event.type == ADD_ARROW:
                 generate_arrows(arrows, keys_level, speed_level)
 
-        running = music_status()
+        # running = music_status()
+        if not music_is_playing():
+            stop_music()
+            display_final_score(score, font, screen, character)
+            pygame.quit()
 
         # delta time is needed to make updates independent of the frame rate to arrows
         delta_time = clock.tick(FPS)/1000
@@ -68,9 +71,7 @@ def play(difficulty="easy", character="girl", song="test"):
                 arrows.remove(arrow)
 
         pygame.display.flip()
-
-    stop_music()
-    display_final_score(score, font, screen, character)
+    
     pygame.quit()
 
 def initialize_pygame():
@@ -170,7 +171,7 @@ def update_arrows(arrows, delta_time):
     for arrow in arrows:
         arrow.set_pos(Pos(arrow.pos.x, arrow.pos.y - arrow.speed * delta_time))
 
-def music_status():
+def music_is_playing():
     '''
     Function to check if music finished playing
     '''
