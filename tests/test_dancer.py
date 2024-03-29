@@ -191,11 +191,47 @@ class Tests:
         assert screen_surface.get_rect().colliderect(text_rect), "Final score text not on screen"
 
     def test_update_arrows(self):
-        pass
+        # Create arrows
+        normal_arrow = []
+        generate_arrows(normal_arrow, 1, 1)
+        normal_arrow[0].set_pos(Pos(100,SCREEN_HEIGHT))
+
+        grey_arrow = []
+        generate_arrows(grey_arrow, 1, 1)
+        grey_arrow[0].set_pos(Pos(200, 100))
+
+        out_of_screen_arrow = []
+        generate_arrows(out_of_screen_arrow, 1, 1)
+        out_of_screen_arrow[0].set_pos(Pos(300,-100))
+        
+        # Set arrow statuses
+        normal_arrow[0].set_arrow_status(Status.DEFAULT)
+        grey_arrow[0].set_arrow_status(Status.DEFAULT)
+        out_of_screen_arrow[0].set_arrow_status(Status.DEFAULT)
+        
+        # Create end area
+        end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
+
+        # List of arrows
+        arrows = []
+        arrows.append(normal_arrow[0])
+        arrows.append(grey_arrow[0])
+        arrows.append(out_of_screen_arrow[0])
+
+        # Update arrows
+        updated_arrows = update_arrows(arrows, 0.1, end_area)
+
+        # Check statuses
+        assert updated_arrows[0].status == Status.DEFAULT, "Normal arrow status changed"
+        assert updated_arrows[1].status == Status.OUTLINE, "Grey arrow status not updated"
+        assert out_of_screen_arrow[0] not in updated_arrows, "Out-of-screen arrow not removed"
+
+        # Assertions
+        assert len(updated_arrows) == 2, "Expected number of arrows to be 2 after update. Instead, returned 3"
 
     def test_setup_pygame(self):
         screen, clock, font = setup_pygame()
-        
+
         assert isinstance(screen, pygame.Surface), "Screen is not an instance of pygame.Surface"
         assert isinstance(clock, pygame.time.Clock), "Clock is not an instance of pygame.time.Clock"
         assert isinstance(font, pygame.font.Font), "Font is not an instance of pygame.font.Font"
