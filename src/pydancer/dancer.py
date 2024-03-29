@@ -160,12 +160,6 @@ def music_is_playing():
         return False
     return True
 
-def stop_music():
-    '''
-    Function to stop background music when quitting the game
-    '''
-    pygame.mixer.music.stop()
-
 def render_screen(screen, end_area, dancer, arrows):
     '''
     Function to display the screen and all elements
