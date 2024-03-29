@@ -9,6 +9,9 @@ environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
 
 def play(difficulty="easy", character="girl", song="test"):
+    '''
+    Play the dance game with the specified difficulty, character, and song.
+    '''
     initialize_pygame()
 
     # variable to keep track of player's score
@@ -30,6 +33,9 @@ def play(difficulty="easy", character="girl", song="test"):
     pygame.quit()
 
 def game_loop(arrows, end_area, score, keys_level, speed_level, font, screen, character, clock, dancer, add_arrow_event):
+    '''
+    Main game loop for handling events, updating game state, and rendering the game.
+    '''
     running = True
     while running:
         # Check for events
@@ -203,6 +209,9 @@ def display_final_score(score, font, screen, character):
     pygame.time.wait(5000)
 
 def handle_keydown(arrows, end_area, event, score):
+    '''
+    Handle the keydown event during the game.
+    '''
     if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
         score = check_collision(arrows, end_area, event, score)
     return score
@@ -217,6 +226,9 @@ def update_arrow_positions(arrows, delta_time):
     return arrows
 
 def update_arrows(arrows, delta_time, end_area):
+    '''
+    Update the positions and statuses of arrows based on the time passed and the end area.
+    '''
     arrows = update_arrow_positions(arrows, delta_time)
     for arrow in arrows:
         # grey_out arrows that are above the end area
@@ -231,6 +243,9 @@ def update_arrows(arrows, delta_time, end_area):
     return arrows
     
 def setup_pygame():
+    '''
+    Set up the Pygame environment for the game.
+    '''
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption(GAME_NAME)
     clock = pygame.time.Clock()
