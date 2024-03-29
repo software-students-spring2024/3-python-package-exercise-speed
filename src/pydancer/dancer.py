@@ -2,6 +2,7 @@ from .constants import *
 from .image_functions import *
 from .component import *
 from .images import *
+from pathlib import Path
 import random
 from os import environ
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
@@ -74,7 +75,9 @@ def load_music(song):
     # TO-DO: add more songs
     # TO-DO: Change milliseconds variable based on song to sync with the beat
     # TO-DO: possibly load song from a database/JSON file that has milliseconds info etc
-    pygame.mixer.music.load(song + ".mp3")
+    current_dir = Path(__file__).parent
+
+    pygame.mixer.music.load(str(current_dir) + "/" + song + ".mp3")
     pygame.mixer.music.play(1) # Play the music once
 
 def set_difficulty(difficulty):

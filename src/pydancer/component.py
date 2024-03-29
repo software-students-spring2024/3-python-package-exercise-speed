@@ -1,5 +1,6 @@
 from .constants import *
 from .image_functions import *
+from pathlib import Path
 
 class Pos:
     def __init__(self, x, y):
@@ -65,13 +66,16 @@ class Component:
         if self.status == status:
             return
 
+        current_dir = Path(__file__).parent
+
         self.status = status
-        path = self.direction.value + "_arrow_" + status.value + ".png"
+        path = str(current_dir) + "/" + self.direction.value + "_arrow_" + status.value + ".png"
         self.image = scale_image(load_image(path), ARROW_WIDTH, ARROW_HEIGHT)
 
 def generate_arrow(direction, level) -> Component:
+    current_dir = Path(__file__).parent
     # generate path
-    path = direction.value + "_arrow_filled.png"
+    path = str(current_dir) + "/" + direction.value + "_arrow_filled.png"
 
     # load and scale image
     arrow_image = load_image(path)
