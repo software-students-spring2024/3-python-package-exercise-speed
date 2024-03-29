@@ -49,11 +49,10 @@ def game_loop(arrows, end_area, score, keys_level, speed_level, font, screen, ch
             if event.type == add_arrow_event:
                 arrows = generate_arrows(arrows, keys_level, speed_level)
 
-        # running = music_status()
         if not music_is_playing():
             stop_music()
             display_final_score(score, font, screen, character)
-            pygame.quit()
+            running = False
 
         # delta time is needed to make updates independent of the frame rate to arrows
         delta_time = clock.tick(FPS)/1000
