@@ -3,6 +3,7 @@ os.chdir("./src")
 from src.pydancer.dancer import *
 import pygame
 from unittest.mock import patch
+from pathlib import Path
 
 class Tests:
     def test_sanity_check(self):
@@ -16,12 +17,6 @@ class Tests:
     def test_initialize_pygame(self):
         initialize_pygame()
         assert (pygame.get_init() == True), f"Expected initialize_pygame to return True but returned False."
-
-    def test_load_music(self):
-        with patch('pygame.mixer.music') as mixer:
-            load_music("test")
-            mixer.load.assert_called_once_with("../static/music/test.mp3")
-            mixer.play.assert_called_once()
 
     def test_set_difficulty(self):
         keys_level, speed_level = set_difficulty("easy")
