@@ -4,7 +4,12 @@
 
 Python game version of dance arcade games. To play, use the arrow keys to match the steps of the dance.
 
+[PyPi Link](https://pypi.org/project/pydancer/0.0.1/)
+
 Note: When writing the statements below, you may need to change all the statements with `python3` to `python` depending on your python installation. 
+
+## To install:
+`pip install pydancer==0.0.1`
 
 ## To play:
 `python3 -m pydancer play`
