@@ -65,7 +65,10 @@ If you'd like to contribute code, add documentation, or add tests, you can do so
 
 7. **Make Changes**: Make your desired changes to the codebase. Whether it's fixing a bug, adding a new feature, or improving documentation, your contributions are welcome!
 
-8. **Test Your Changes**: Ensure that your changes don't introduce any errors and that existing functionality still works as expected.
+8. **Test Your Changes**: Ensure that your changes don't introduce any errors and that existing functionality still works as expected. You can use our current tests by running the following command in the root directory:
+    ```
+    pytest
+    ```
 
 9. **Commit Your Changes**: Once you're happy with your changes, commit them to your branch with descriptive commit messages:
    ```

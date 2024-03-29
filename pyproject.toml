@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pydancer"
 description = "Python game version of the dance arcade game, using arrow keys to match the steps of the dance."
-version = "0.0.9"
+version = "0.0.1"
 authors = [
     { name="Glenda Boeker", email="gbb5479@nyu.edu" },
     { name="Ahmet Ilten", email="ai2068@nyu.edu" },
