@@ -66,12 +66,12 @@ class Component:
             return
 
         self.status = status
-        path = "../static/images/" + self.direction.value + "_arrow_" + status.value + ".png"
+        path = "pydancer/static/images/" + self.direction.value + "_arrow_" + status.value + ".png"
         self.image = scale_image(load_image(path), ARROW_WIDTH, ARROW_HEIGHT)
 
 def generate_arrow(direction, level) -> Component:
     # generate path
-    path = "../static/images/" + direction.value + "_arrow_filled.png"
+    path = "pydancer/static/images/" + direction.value + "_arrow_filled.png"
 
     # load and scale image
     arrow_image = load_image(path)

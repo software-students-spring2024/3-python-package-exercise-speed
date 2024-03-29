@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b67776535f426efb44c74b6713207b550a62247ad74bf6a0298a35c40a677a1d"
+            "sha256": "1719ab451b5e38bfd5a022d91c4819a9eca278efadc0ef943949892e0cebc03b"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -323,6 +323,15 @@
             ],
             "markers": "python_version >= '3.8'",
             "version": "==1.4.0"
+        },
+        "pydancer": {
+            "hashes": [
+                "sha256:4145ba5bc07da7c8c40d1fcc6628a49790569eb63ba95cb678191698a7d06017",
+                "sha256:9f3044b51d4531b73c3a3dc37a837c3b5345b6894a66ff1dcfe14a31cc385e89"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.7'",
+            "version": "==0.0.1"
         },
         "pygame": {
             "hashes": [
