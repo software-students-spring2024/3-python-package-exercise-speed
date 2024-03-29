@@ -239,8 +239,31 @@ class Tests:
         assert screen.get_height() == SCREEN_HEIGHT, f"Screen height is {screen.get_height()}, expected {SCREEN_HEIGHT}."
         assert pygame.display.get_caption()[0] == GAME_NAME, f"Game name is {pygame.display.get_caption()[0]}, expected {GAME_NAME}."
     
-    def handle_keydown(self):
-        pass
+    def test_handle_keydown(self):
+        arrows = []
+        generate_arrows(arrows, 1, 1)
+        arrows[0].set_pos(Pos(100,SCREEN_HEIGHT * .3))
 
-    def game_loop(self):
+        # Create mock event with a valid key
+        # only one event should cause a collision (w score 10)
+        # all others should have score 0
+        mock_event1 = pygame.event.Event(pygame.KEYDOWN, {'key': pygame.K_LEFT})
+        mock_event2 = pygame.event.Event(pygame.KEYDOWN, {'key': pygame.K_RIGHT})
+        mock_event3 = pygame.event.Event(pygame.KEYDOWN, {'key': pygame.K_UP})
+        mock_event4 = pygame.event.Event(pygame.KEYDOWN, {'key': pygame.K_DOWN})
+
+        end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
+
+        score = 0
+
+        score1 = handle_keydown(arrows, end_area, mock_event1, score)
+        score2 = handle_keydown(arrows, end_area, mock_event2, score)
+        score3 = handle_keydown(arrows, end_area, mock_event3, score)
+        score4 = handle_keydown(arrows, end_area, mock_event4, score)
+
+        score = score1 + score2 + score3 + score4
+
+        assert (score == 10), f"Expected updated score to be 10 when a valid key is pressed. Instead, returned '{score}'."
+
+    def test_game_loop(self):
         pass
