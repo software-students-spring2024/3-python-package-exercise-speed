@@ -12,25 +12,16 @@ class Tests:
 
     def test_play(self):
         pass
-    #     pygame.init()
-    #     try:
-    #         play(run_game=False)
-    #     except Exception as e:
-    #         assert False, f"Error occurred while running the game loop: {e}"
-    #     pygame.quit() 
 
     def test_initialize_pygame(self):
         initialize_pygame()
         assert (pygame.get_init() == True), f"Expected initialize_pygame to return True but returned False."
 
     def test_load_music(self):
-        pass
-        # with patch('pygame.mixer.music') as mixer:
-        #     #mixer.get_busy.return_value = True  # Simulate music playing
-        #     load_music("test")
-        #     mixer.load.assert_called_once_with("../static/music/test.mp3")
-        #     mixer.play.assert_called_once()
-        #     assert (mixer.get_busy() == True)
+        with patch('pygame.mixer.music') as mixer:
+            load_music("test")
+            mixer.load.assert_called_once_with("../static/music/test.mp3")
+            mixer.play.assert_called_once()
 
     def test_set_difficulty(self):
         keys_level, speed_level = set_difficulty("easy")
@@ -78,7 +69,6 @@ class Tests:
         assert(end_area.pos.y == SCREEN_HEIGHT * .3), f"Expected end_area.pos.y == SCREEN_HEIGHT * .3"
 
     def test_check_collision(self):
-
         arrows = []
         arrow1 = generate_arrow(Direction.UP, 1)
         arrow1.set_pos(Pos(100, 200))
@@ -109,7 +99,7 @@ class Tests:
         for arrow in arrows:
             assert (arrow.direction in [Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT]), f"Invalid direction detected: {arrow.direction}."
             
-    def test_update_arrows(self):
+    def test_update_arrows_positions(self):
         clock = pygame.time.Clock()
         delta_time = clock.tick(FPS)/1000
 
@@ -134,21 +124,6 @@ class Tests:
         with patch('pygame.mixer.music') as mixer:
             mixer.get_busy.return_value = False # Simulate music not playing
             assert music_is_playing() == False, "Expected music_is_playing() == False, but returned True"
-
-    def test_stop_music(self):
-        pass
-        # with patch('pygame.mixer.music') as mixer:
-        #     mixer.get_busy.return_value = True  # Simulate music playing
-        #     stop_music()
-        #     actual = mixer.get_busy()
-        #     #mixer.stop.assert_called_once()
-        #     assert (actual == False)
-
-        # pygame.mixer.init()
-        # pygame.mixer.music.load("../static/music/test.mp3")
-        # pygame.mixer.music.play(1) # Play the music once
-        # stop_music()
-        # assert not pygame.mixer.music.get_busy(), "music still playing"
 
     def test_render_screen(self):
         screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -189,3 +164,106 @@ class Tests:
         screen_surface = pygame.display.get_surface()
         text_rect = final_score_text.get_rect(center=screen_surface.get_rect().center)
         assert screen_surface.get_rect().colliderect(text_rect), "Final score text not on screen"
+
+    def test_update_arrows(self):
+        # Create arrows
+        normal_arrow = []
+        generate_arrows(normal_arrow, 1, 1)
+        normal_arrow[0].set_pos(Pos(100,SCREEN_HEIGHT))
+
+        grey_arrow = []
+        generate_arrows(grey_arrow, 1, 1)
+        grey_arrow[0].set_pos(Pos(200, 100))
+
+        out_of_screen_arrow = []
+        generate_arrows(out_of_screen_arrow, 1, 1)
+        out_of_screen_arrow[0].set_pos(Pos(300,-100))
+        
+        # Set arrow statuses
+        normal_arrow[0].set_arrow_status(Status.DEFAULT)
+        grey_arrow[0].set_arrow_status(Status.DEFAULT)
+        out_of_screen_arrow[0].set_arrow_status(Status.DEFAULT)
+        
+        # Create end area
+        end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
+
+        # List of arrows
+        arrows = []
+        arrows.append(normal_arrow[0])
+        arrows.append(grey_arrow[0])
+        arrows.append(out_of_screen_arrow[0])
+
+        # Update arrows
+        updated_arrows = update_arrows(arrows, 0.1, end_area)
+
+        # Check statuses
+        assert updated_arrows[0].status == Status.DEFAULT, "Normal arrow status changed"
+        assert updated_arrows[1].status == Status.OUTLINE, "Grey arrow status not updated"
+        assert out_of_screen_arrow[0] not in updated_arrows, "Out-of-screen arrow not removed"
+
+        # Assertions
+        assert len(updated_arrows) == 2, "Expected number of arrows to be 2 after update. Instead, returned 3"
+
+    def test_setup_pygame(self):
+        screen, clock, font = setup_pygame()
+
+        assert isinstance(screen, pygame.Surface), "Screen is not an instance of pygame.Surface"
+        assert isinstance(clock, pygame.time.Clock), "Clock is not an instance of pygame.time.Clock"
+        assert isinstance(font, pygame.font.Font), "Font is not an instance of pygame.font.Font"
+        assert screen.get_width() == SCREEN_WIDTH, f"Screen width is {screen.get_width()}, expected {SCREEN_WIDTH}."
+        assert screen.get_height() == SCREEN_HEIGHT, f"Screen height is {screen.get_height()}, expected {SCREEN_HEIGHT}."
+        assert pygame.display.get_caption()[0] == GAME_NAME, f"Game name is {pygame.display.get_caption()[0]}, expected {GAME_NAME}."
+    
+    def test_handle_keydown(self):
+        arrows = []
+        generate_arrows(arrows, 1, 1)
+        arrows[0].set_pos(Pos(100,SCREEN_HEIGHT * .3))
+
+        # Create mock event with a valid key
+        # only one event should cause a collision (w score 10)
+        # all others should have score 0
+        mock_event1 = pygame.event.Event(pygame.KEYDOWN, {'key': pygame.K_LEFT})
+        mock_event2 = pygame.event.Event(pygame.KEYDOWN, {'key': pygame.K_RIGHT})
+        mock_event3 = pygame.event.Event(pygame.KEYDOWN, {'key': pygame.K_UP})
+        mock_event4 = pygame.event.Event(pygame.KEYDOWN, {'key': pygame.K_DOWN})
+
+        end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
+
+        score = 0
+
+        score1 = handle_keydown(arrows, end_area, mock_event1, score)
+        score2 = handle_keydown(arrows, end_area, mock_event2, score)
+        score3 = handle_keydown(arrows, end_area, mock_event3, score)
+        score4 = handle_keydown(arrows, end_area, mock_event4, score)
+
+        score = score1 + score2 + score3 + score4
+
+        assert (score == 10), f"Expected updated score to be 10 when a valid key is pressed. Instead, returned '{score}'."
+
+    def test_game_loop(self):
+        with patch('pygame.quit'), patch('pygame.event.get', return_value=[pygame.event.Event(pygame.QUIT)]):
+            # Set up pygame environment
+            pygame.init()
+            pygame.font.init()
+            pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+            screen, clock, font = setup_pygame()
+            screen.fill(BACKGROUND_COLOR)
+
+            # Mock game components
+            arrows = []
+            end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
+            score = 0
+            keys_level = 3
+            speed_level = 1.3
+            character = "girl"
+            dancer_image = set_character_image(character)
+            dancer = Component(dancer_image, Pos(SCREEN_WIDTH * .5 , SCREEN_HEIGHT * .1)) # Mock dancer
+            add_arrow_event = pygame.USEREVENT
+            milliseconds = 1406
+            pygame.time.set_timer(add_arrow_event, milliseconds)
+
+            # Run the game loop (not really executing anything, just checking for errors)
+            game_loop(arrows, end_area, score, keys_level, speed_level, font, screen, character, clock, dancer, add_arrow_event)
+
+            # No assertion needed as we're testing for errors during execution
+            # If the function runs without errors, the test passes
