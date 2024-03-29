@@ -12,25 +12,16 @@ class Tests:
 
     def test_play(self):
         pass
-    #     pygame.init()
-    #     try:
-    #         play(run_game=False)
-    #     except Exception as e:
-    #         assert False, f"Error occurred while running the game loop: {e}"
-    #     pygame.quit() 
 
     def test_initialize_pygame(self):
         initialize_pygame()
         assert (pygame.get_init() == True), f"Expected initialize_pygame to return True but returned False."
 
     def test_load_music(self):
-        pass
-        # with patch('pygame.mixer.music') as mixer:
-        #     #mixer.get_busy.return_value = True  # Simulate music playing
-        #     load_music("test")
-        #     mixer.load.assert_called_once_with("../static/music/test.mp3")
-        #     mixer.play.assert_called_once()
-        #     assert (mixer.get_busy() == True)
+        with patch('pygame.mixer.music') as mixer:
+            load_music("test")
+            mixer.load.assert_called_once_with("../static/music/test.mp3")
+            mixer.play.assert_called_once()
 
     def test_set_difficulty(self):
         keys_level, speed_level = set_difficulty("easy")
@@ -78,7 +69,6 @@ class Tests:
         assert(end_area.pos.y == SCREEN_HEIGHT * .3), f"Expected end_area.pos.y == SCREEN_HEIGHT * .3"
 
     def test_check_collision(self):
-
         arrows = []
         arrow1 = generate_arrow(Direction.UP, 1)
         arrow1.set_pos(Pos(100, 200))
@@ -134,21 +124,6 @@ class Tests:
         with patch('pygame.mixer.music') as mixer:
             mixer.get_busy.return_value = False # Simulate music not playing
             assert music_is_playing() == False, "Expected music_is_playing() == False, but returned True"
-
-    def test_stop_music(self):
-        pass
-        # with patch('pygame.mixer.music') as mixer:
-        #     mixer.get_busy.return_value = True  # Simulate music playing
-        #     stop_music()
-        #     actual = mixer.get_busy()
-        #     #mixer.stop.assert_called_once()
-        #     assert (actual == False)
-
-        # pygame.mixer.init()
-        # pygame.mixer.music.load("../static/music/test.mp3")
-        # pygame.mixer.music.play(1) # Play the music once
-        # stop_music()
-        # assert not pygame.mixer.music.get_busy(), "music still playing"
 
     def test_render_screen(self):
         screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -292,4 +267,3 @@ class Tests:
 
             # No assertion needed as we're testing for errors during execution
             # If the function runs without errors, the test passes
-            
