@@ -266,4 +266,30 @@ class Tests:
         assert (score == 10), f"Expected updated score to be 10 when a valid key is pressed. Instead, returned '{score}'."
 
     def test_game_loop(self):
-        pass
+        with patch('pygame.quit'), patch('pygame.event.get', return_value=[pygame.event.Event(pygame.QUIT)]):
+            # Set up pygame environment
+            pygame.init()
+            pygame.font.init()
+            pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+            screen, clock, font = setup_pygame()
+            screen.fill(BACKGROUND_COLOR)
+
+            # Mock game components
+            arrows = []
+            end_area = Component(end_area_image, Pos(SCREEN_WIDTH * .5, SCREEN_HEIGHT * .3))
+            score = 0
+            keys_level = 3
+            speed_level = 1.3
+            character = "girl"
+            dancer_image = set_character_image(character)
+            dancer = Component(dancer_image, Pos(SCREEN_WIDTH * .5 , SCREEN_HEIGHT * .1)) # Mock dancer
+            add_arrow_event = pygame.USEREVENT
+            milliseconds = 1406
+            pygame.time.set_timer(add_arrow_event, milliseconds)
+
+            # Run the game loop (not really executing anything, just checking for errors)
+            game_loop(arrows, end_area, score, keys_level, speed_level, font, screen, character, clock, dancer, add_arrow_event)
+
+            # No assertion needed as we're testing for errors during execution
+            # If the function runs without errors, the test passes
+            
