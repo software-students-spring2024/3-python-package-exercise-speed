@@ -29,13 +29,12 @@ def play(difficulty="easy", character="girl", song="test"):
     arrows = []
 
     game_loop(arrows, end_area, score, keys_level, speed_level, font, screen, character, clock, dancer, add_arrow_event)
-        
-    pygame.quit()
 
 def game_loop(arrows, end_area, score, keys_level, speed_level, font, screen, character, clock, dancer, add_arrow_event):
     '''
     Main game loop for handling events, updating game state, and rendering the game.
     '''
+
     running = True
     while running:
         # Check for events
@@ -49,21 +48,17 @@ def game_loop(arrows, end_area, score, keys_level, speed_level, font, screen, ch
             if event.type == add_arrow_event:
                 arrows = generate_arrows(arrows, keys_level, speed_level)
 
-        # running = music_status()
-        if not music_is_playing():
-            stop_music()
-            display_final_score(score, font, screen, character)
-            pygame.quit()
-
-        # delta time is needed to make updates independent of the frame rate to arrows
-        delta_time = clock.tick(FPS)/1000
-        arrows = update_arrows(arrows, delta_time, end_area)
-
-        render_screen(screen, end_area, dancer, arrows)
-        display_score(score, font, screen)
+        if running == True:
+            running = music_is_playing()
+            # delta time is needed to make updates independent of the frame rate to arrows
+            delta_time = clock.tick(FPS)/1000
+            arrows = update_arrows(arrows, delta_time, end_area)
+            render_screen(screen, end_area, dancer, arrows)
+            display_score(score, font, screen)
 
         pygame.display.flip()
 
+    pygame.quit()
 
 def initialize_pygame():
     '''
